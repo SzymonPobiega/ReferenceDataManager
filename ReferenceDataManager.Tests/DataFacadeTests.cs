@@ -19,7 +19,7 @@ namespace ReferenceDataManager.Tests
                                {
                                    new CreateObjectCommand(objectTypeId, objectId)
                                };
-            facade.LoadChangeSet(new ChangeSet(changeSetId, commands));
+            facade.LoadChangeSet(new ChangeSet(changeSetId, null, commands));
 
             var o = facade.GetById(changeSetId, objectId);
 

@@ -7,9 +7,10 @@ namespace ReferenceDataManager
     {
         private readonly Dictionary<Guid, Snapshot> snapshots = new Dictionary<Guid, Snapshot>();
 
-        public object GetById(Guid objectId, Guid id)
+        public object GetById(Guid changeSetId, Guid objectId)
         {
-            return null;
+            var snapshot = snapshots[changeSetId];
+            return snapshot.GetById(objectId);
         }
 
         public void LoadChangeSet(ChangeSet changeSet)
@@ -19,7 +20,21 @@ namespace ReferenceDataManager
 
         private Snapshot CreateSnapshot(ChangeSet changeSet)
         {
-            throw new NotImplementedException();
+            Snapshot snapshot;
+            if (changeSet.ParentId.HasValue)
+            {
+                var parent = snapshots[changeSet.ParentId.Value];
+                snapshot = new Snapshot(parent);
+            }
+            else
+            {
+                snapshot = new Snapshot();
+            }
+            foreach (var command in changeSet.Commands)
+            {
+                snapshot.Load(command);
+            }
+            return snapshot;
         }
     }
 }
