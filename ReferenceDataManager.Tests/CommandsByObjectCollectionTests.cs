@@ -13,6 +13,7 @@ namespace ReferenceDataManager.Tests
             var targetObjectId = Guid.NewGuid();
             var command = new TestingCommand(targetObjectId);
             var collection = new CommandsByObjectCollection();
+            collection.Add(command);
 
             collection.ExecuteCommands(targetObjectId, null);
 
@@ -25,6 +26,7 @@ namespace ReferenceDataManager.Tests
             var targetObjectId = Guid.NewGuid();
             var command = new TestingCommand(Guid.NewGuid());
             var collection = new CommandsByObjectCollection();
+            collection.Add(command);
 
             collection.ExecuteCommands(targetObjectId, null);
 
