@@ -5,6 +5,7 @@ namespace ReferenceDataManager
 {
     public class Snapshot : ICommandExecutionContext, ISnapshot
     {
+        private readonly CommandsByObjectCollection commandsByObject = new CommandsByObjectCollection();
         private readonly ISnapshot parentSnapshot;
         private readonly Dictionary<Guid, DataObject> objects = new Dictionary<Guid, DataObject>();
 
@@ -20,7 +21,6 @@ namespace ReferenceDataManager
 
         public void Load(AbstractCommand command)
         {
-            command.Execute(this);
         }
 
         public DataObject GetById(Guid objectId)
@@ -45,9 +45,15 @@ namespace ReferenceDataManager
         }
 
 
-        void ICommandExecutionContext.Attach(Guid firstObjectid, Guid secondObjectId, string relationName)
+        void ICommandExecutionContext.Attach(Guid refererObjectId, Guid refereeObjectId, string relationName)
         {
-            
+            var first = GetById(refererObjectId);
+            var second = GetById(refereeObjectId);
+
         }
+    }
+
+    public class Relation
+    {
     }
 }

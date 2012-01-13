@@ -12,16 +12,15 @@ namespace ReferenceDataManager
             this.id = id;
         }
 
-        public IEnumerable<DataObject> GetReleated(Guid firstObjectid, string relationname)
+        public IEnumerable<DataObject> GetReleated(string relationname, Snapshot context)
         {
             yield break;
         }
 
         public Guid Id
         {
-            get {
-                return id;
-            }
+            get { return id; }
         }
+
     }
 }

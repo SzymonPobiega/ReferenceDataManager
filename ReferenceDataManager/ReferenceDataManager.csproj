@@ -43,6 +43,7 @@
     <Compile Include="AbstractCommand.cs" />
     <Compile Include="AttachObjectCommand.cs" />
     <Compile Include="ChangeSet.cs" />
+    <Compile Include="CommandsByObjectCollection.cs" />
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="DataFacade.cs" />
     <Compile Include="DataObject.cs" />

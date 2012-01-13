@@ -40,19 +40,19 @@ namespace ReferenceDataManager.Tests
         public void It_can_attach_one_object_to_another()
         {
             const string relationName = "RelationName";
-            var firstObjectid = Guid.NewGuid();
-            var secondObjectId = Guid.NewGuid();
+            var refererObjectId = Guid.NewGuid();
+            var refereeObjectId = Guid.NewGuid();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();
-            snapshot.Load(new CreateObjectCommand(objectTypeId, firstObjectid));
-            snapshot.Load(new CreateObjectCommand(objectTypeId, secondObjectId));
+            snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
+            snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
 
-            snapshot.Load(new AttachObjectCommand(firstObjectid, secondObjectId, relationName));
+            snapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
 
-            var o = snapshot.GetById(firstObjectid);
-            var relatedToFirst = o.GetReleated(firstObjectid, relationName);
-            Assert.IsTrue(relatedToFirst.Any(x => x.Id == secondObjectId));
+            var o = snapshot.GetById(refererObjectId);
+            var relatedToFirst = o.GetReleated(relationName, snapshot);
+            Assert.IsTrue(relatedToFirst.Any(x => x.Id == refereeObjectId));
         }
     }
 }

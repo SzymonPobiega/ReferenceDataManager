@@ -4,20 +4,19 @@ namespace ReferenceDataManager
 {
     public class AttachObjectCommand : AbstractCommand
     {
-        private readonly Guid firstObjectid;
-        private readonly Guid secondObjectId;
+        private readonly Guid refereeObjectId;
         private readonly string relationName;
 
-        public AttachObjectCommand(Guid firstObjectid, Guid secondObjectId, string relationName)
+        public AttachObjectCommand(Guid refererObjectId, Guid refereeObjectId, string relationName)
+            : base(refererObjectId)
         {
-            this.firstObjectid = firstObjectid;
-            this.secondObjectId = secondObjectId;
+            this.refereeObjectId = refereeObjectId;
             this.relationName = relationName;
         }
 
         public override void Execute(ICommandExecutionContext context)
         {
-            context.Attach(firstObjectid, secondObjectId, relationName);
+            context.Attach(TargetObjectId, refereeObjectId, relationName);
         }
     }
 }
