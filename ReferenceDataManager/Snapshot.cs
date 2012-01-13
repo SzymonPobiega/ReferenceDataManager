@@ -7,6 +7,14 @@ namespace ReferenceDataManager
     {
         private readonly Dictionary<Guid, DataObject> objects = new Dictionary<Guid, DataObject>();
 
+        public Snapshot(Snapshot parentSnapshot)
+        {
+        }
+
+        public Snapshot()
+        {
+        }
+
         public void Load(AbstractCommand command)
         {
             command.Execute(this);
