@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming
@@ -33,6 +34,25 @@ namespace ReferenceDataManager.Tests
             var o = nextSnapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
+        }
+
+        [Test]
+        public void It_can_attach_one_object_to_another()
+        {
+            const string relationName = "RelationName";
+            var firstObjectid = Guid.NewGuid();
+            var secondObjectId = Guid.NewGuid();
+            var objectTypeId = Guid.NewGuid();
+
+            var snapshot = new Snapshot();
+            snapshot.Load(new CreateObjectCommand(objectTypeId, firstObjectid));
+            snapshot.Load(new CreateObjectCommand(objectTypeId, secondObjectId));
+
+            snapshot.Load(new AttachObjectCommand(firstObjectid, secondObjectId, relationName));
+
+            var o = snapshot.GetById(firstObjectid);
+            var relatedToFirst = o.GetReleated(firstObjectid, relationName);
+            Assert.IsTrue(relatedToFirst.Any(x => x.Id == secondObjectId));
         }
     }
 }

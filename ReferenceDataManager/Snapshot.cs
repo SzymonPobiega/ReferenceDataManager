@@ -23,17 +23,17 @@ namespace ReferenceDataManager
             command.Execute(this);
         }
 
-        public object GetById(Guid objectId)
+        public DataObject GetById(Guid objectId)
         {
             return FindInCurrent(objectId) ?? FindInParent(objectId);
         }
 
-        private object FindInParent(Guid objectId)
+        private DataObject FindInParent(Guid objectId)
         {
             return parentSnapshot.GetById(objectId);
         }
 
-        private object FindInCurrent(Guid objectId)
+        private DataObject FindInCurrent(Guid objectId)
         {
             DataObject existing;
             return objects.TryGetValue(objectId, out existing) ? existing : null;
@@ -41,7 +41,13 @@ namespace ReferenceDataManager
 
         void ICommandExecutionContext.Create(Guid objectTypeId, Guid objectId)
         {
-            objects[objectId] = new DataObject();
+            objects[objectId] = new DataObject(objectId);
+        }
+
+
+        void ICommandExecutionContext.Attach(Guid firstObjectid, Guid secondObjectId, string relationName)
+        {
+            
         }
     }
 }

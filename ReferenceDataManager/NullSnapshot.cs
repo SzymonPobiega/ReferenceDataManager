@@ -4,7 +4,7 @@ namespace ReferenceDataManager
 {
     public sealed class NullSnapshot : ISnapshot
     {
-        public object GetById(Guid objectId)
+        public DataObject GetById(Guid objectId)
         {
             return null;
         }

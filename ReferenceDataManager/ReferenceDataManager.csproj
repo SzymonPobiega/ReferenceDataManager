@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractCommand.cs" />
+    <Compile Include="AttachObjectCommand.cs" />
     <Compile Include="ChangeSet.cs" />
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="DataFacade.cs" />
