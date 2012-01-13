@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -53,6 +54,29 @@ namespace ReferenceDataManager.Tests
             var o = snapshot.GetById(refererObjectId);
             var relatedToFirst = o.GetRelated(relationName);
             Assert.IsTrue(relatedToFirst.Any(x => x == refereeObjectId));
+        }
+
+        [Test]
+        public void It_can_attach_one_object_to_another_event_if_it_was_created_as_part_of_previous_snapshot()
+        {
+            const string relationName = "RelationName";
+            var refererObjectId = Guid.NewGuid();
+            var refereeObjectId = Guid.NewGuid();
+            var objectTypeId = Guid.NewGuid();
+
+            var snapshot = new Snapshot();
+            snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
+            snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
+
+            var nextSnapshot = new Snapshot(snapshot);
+
+            nextSnapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
+
+            var currentObjectState = nextSnapshot.GetById(refererObjectId);
+            Assert.IsTrue(currentObjectState.GetRelated(relationName).Any(x => x == refereeObjectId));
+
+            var previousObjectState = snapshot.GetById(refererObjectId);
+            Assert.IsFalse(previousObjectState.GetRelated(relationName).Any(x => x == refereeObjectId));
         }
     }
 }

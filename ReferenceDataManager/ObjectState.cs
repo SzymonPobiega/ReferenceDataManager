@@ -6,6 +6,7 @@ namespace ReferenceDataManager
     public class ObjectState
     {
         private readonly Guid id;
+        private readonly ObjectRelationCollection relations = new ObjectRelationCollection();
 
         public ObjectState(Guid id)
         {
@@ -19,11 +20,12 @@ namespace ReferenceDataManager
 
         public void Attach(Guid refereeObjectId, string relationName)
         {
+            relations.Attach(refereeObjectId, relationName);
         }
 
         public IEnumerable<Guid> GetRelated(string relationName)
         {
-            yield break;
+            return relations.GetRelated(relationName);
         }
     }
 }
