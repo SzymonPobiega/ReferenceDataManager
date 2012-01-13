@@ -14,7 +14,7 @@ namespace ReferenceDataManager
 
         public override void Execute(ICommandExecutionContext context)
         {
-            context.Create(objectTypeId, TargetObjectId);
+            context.Create(objectTypeId);
         }
     }
 }

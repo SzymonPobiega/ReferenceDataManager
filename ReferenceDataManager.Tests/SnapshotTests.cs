@@ -51,8 +51,8 @@ namespace ReferenceDataManager.Tests
             snapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
 
             var o = snapshot.GetById(refererObjectId);
-            var relatedToFirst = o.GetReleated(relationName, snapshot);
-            Assert.IsTrue(relatedToFirst.Any(x => x.Id == refereeObjectId));
+            var relatedToFirst = o.GetRelated(relationName);
+            Assert.IsTrue(relatedToFirst.Any(x => x == refereeObjectId));
         }
     }
 }

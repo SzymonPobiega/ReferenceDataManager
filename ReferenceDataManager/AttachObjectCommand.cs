@@ -16,7 +16,7 @@ namespace ReferenceDataManager
 
         public override void Execute(ICommandExecutionContext context)
         {
-            context.Attach(TargetObjectId, refereeObjectId, relationName);
+            context.Attach(refereeObjectId, relationName);
         }
     }
 }
