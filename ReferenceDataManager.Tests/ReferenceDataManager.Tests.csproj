@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="DataFacadeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnapshotTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReferenceDataManager\ReferenceDataManager.csproj">

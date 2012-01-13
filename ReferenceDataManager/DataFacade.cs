@@ -22,8 +22,4 @@ namespace ReferenceDataManager
             throw new NotImplementedException();
         }
     }
-
-    public class Snapshot
-    {
-    }
 }
