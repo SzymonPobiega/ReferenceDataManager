@@ -1,4 +1,6 @@
-﻿namespace ReferenceDataManager
+﻿using System;
+
+namespace ReferenceDataManager
 {
     public class CommandsByObjectCollection
     {
@@ -7,7 +9,7 @@
             
         }
 
-        public void ExecuteCommands(ICommandExecutionContext context)
+        public void ExecuteCommands(Guid targetObjectId, ICommandExecutionContext context)
         {
             
         }
