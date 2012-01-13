@@ -10,6 +10,16 @@ namespace ReferenceDataManager.Tests
     public class SnapshotTests
     {
         [Test]
+        public void It_retusn_null_for_non_exiting_object()
+        {
+            var snapshot = new Snapshot();
+
+            var nonExisting = snapshot.GetById(Guid.NewGuid());
+
+            Assert.IsNull(nonExisting);
+        }
+
+        [Test]
         public void It_can_create_object_and_get_by_id()
         {
             var objectId = Guid.NewGuid();
