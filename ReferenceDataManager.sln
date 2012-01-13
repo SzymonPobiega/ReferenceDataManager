@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceDataManager", "ReferenceDataManager\ReferenceDataManager.csproj", "{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceDataManager.Tests", "ReferenceDataManager.Tests\ReferenceDataManager.Tests.csproj", "{8E28D35E-4A88-4481-8663-6DADD51FE838}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E28D35E-4A88-4481-8663-6DADD51FE838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E28D35E-4A88-4481-8663-6DADD51FE838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E28D35E-4A88-4481-8663-6DADD51FE838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E28D35E-4A88-4481-8663-6DADD51FE838}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
