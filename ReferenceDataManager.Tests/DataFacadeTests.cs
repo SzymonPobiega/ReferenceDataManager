@@ -11,6 +11,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_creates_object_and_returns_it_by_id()
         {
+            var changeSetId = Guid.NewGuid();
             var objectId = Guid.NewGuid();
             var objectTypeId = Guid.NewGuid();
             var facade = new DataFacade();
@@ -18,9 +19,9 @@ namespace ReferenceDataManager.Tests
                                {
                                    new CreateObjectCommand(objectTypeId, objectId)
                                };
-            facade.LoadCommands(commands);
+            facade.LoadChangeSet(new ChangeSet(changeSetId, commands));
 
-            var o = facade.GetById(objectId);
+            var o = facade.GetById(changeSetId, objectId);
 
             Assert.IsNotNull(o);
         }

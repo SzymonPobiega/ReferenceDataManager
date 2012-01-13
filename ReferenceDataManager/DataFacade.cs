@@ -5,13 +5,25 @@ namespace ReferenceDataManager
 {
     public class DataFacade
     {
-        public object GetById(Guid objectId)
+        private readonly Dictionary<Guid, Snapshot> snapshots = new Dictionary<Guid, Snapshot>();
+
+        public object GetById(Guid objectId, Guid id)
         {
             return null;
         }
 
-        public void LoadCommands(IEnumerable<AbstractCommand> commands)
+        public void LoadChangeSet(ChangeSet changeSet)
         {
+            snapshots[changeSet.Id] = CreateSnapshot(changeSet);
         }
+
+        private Snapshot CreateSnapshot(ChangeSet changeSet)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class Snapshot
+    {
     }
 }

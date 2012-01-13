@@ -41,8 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractCommand.cs" />
+    <Compile Include="ChangeSet.cs" />
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="DataFacade.cs" />
+    <Compile Include="ICommandExecutionContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

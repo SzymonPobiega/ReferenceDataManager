@@ -7,5 +7,10 @@ namespace ReferenceDataManager
         public CreateObjectCommand(Guid objectTypeId, Guid objectId)
         {
         }
+
+        public override void Execute(ICommandExecutionContext context)
+        {
+            
+        }
     }
 }
