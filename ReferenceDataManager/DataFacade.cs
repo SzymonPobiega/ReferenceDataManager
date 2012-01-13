@@ -7,7 +7,7 @@ namespace ReferenceDataManager
     {
         private readonly Dictionary<Guid, Snapshot> snapshots = new Dictionary<Guid, Snapshot>();
 
-        public object GetById(Guid changeSetId, Guid objectId)
+        public object GetById(Guid changeSetId, ObjectId objectId)
         {
             var snapshot = snapshots[changeSetId];
             return snapshot.GetById(objectId);

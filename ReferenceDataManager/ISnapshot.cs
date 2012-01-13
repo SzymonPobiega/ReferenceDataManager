@@ -4,6 +4,6 @@ namespace ReferenceDataManager
 {
     public interface ISnapshot
     {
-        ObjectState GetById(Guid objectId);
+        ObjectState GetById(ObjectId objectId);
     }
 }

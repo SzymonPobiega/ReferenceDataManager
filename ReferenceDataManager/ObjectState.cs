@@ -5,25 +5,25 @@ namespace ReferenceDataManager
 {
     public class ObjectState
     {
-        private readonly Guid id;
+        private readonly ObjectId id;
         private readonly ObjectRelationCollection relations = new ObjectRelationCollection();
 
-        public ObjectState(Guid id)
+        public ObjectState(ObjectId id)
         {
             this.id = id;
         }
 
-        public Guid Id
+        public ObjectId Id
         {
             get { return id; }
         }
 
-        public void Attach(Guid refereeObjectId, string relationName)
+        public void Attach(ObjectId refereeObjectId, string relationName)
         {
             relations.Attach(refereeObjectId, relationName);
         }
 
-        public IEnumerable<Guid> GetRelated(string relationName)
+        public IEnumerable<ObjectId> GetRelated(string relationName)
         {
             return relations.GetRelated(relationName);
         }

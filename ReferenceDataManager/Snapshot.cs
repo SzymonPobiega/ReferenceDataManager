@@ -23,7 +23,7 @@ namespace ReferenceDataManager
             commandsByObject.Add(command);
         }
 
-        public ObjectState GetById(Guid objectId)
+        public ObjectState GetById(ObjectId objectId)
         {
             var inheritedObjectState = parentSnapshot.GetById(objectId);
             var context = new CommandExecutionContext(objectId, inheritedObjectState);

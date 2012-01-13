@@ -6,7 +6,7 @@ namespace ReferenceDataManager
     {
         private readonly Guid objectTypeId;
 
-        public CreateObjectCommand(Guid objectTypeId, Guid objectId)
+        public CreateObjectCommand(Guid objectTypeId, ObjectId objectId)
             : base(objectId)
         {
             this.objectTypeId = objectTypeId;

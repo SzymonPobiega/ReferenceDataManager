@@ -5,6 +5,6 @@ namespace ReferenceDataManager
     public interface ICommandExecutionContext
     {
         void Create(Guid objectTypeId);
-        void Attach(Guid refereeObjectId, string relationName);
+        void Attach(ObjectId refereeObjectId, string relationName);
     }
 }

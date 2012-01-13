@@ -5,26 +5,26 @@ namespace ReferenceDataManager
 {
     public class ObjectRelationCollection
     {
-        private readonly Dictionary<string, List<Guid>> relations = new Dictionary<string, List<Guid>>();
-        private static readonly Guid[] emptyRelatedList = new Guid[] {};
+        private readonly Dictionary<string, List<ObjectId>> relations = new Dictionary<string, List<ObjectId>>();
+        private static readonly ObjectId[] emptyRelatedList = new ObjectId[] {};
 
-        public void Attach(Guid refereeObjectId, string relationName)
+        public void Attach(ObjectId refereeObjectId, string relationName)
         {
-            List<Guid> existingRelation;
+            List<ObjectId> existingRelation;
             if (relations.TryGetValue(relationName, out existingRelation))
             {
                 existingRelation.Add(refereeObjectId);
             }
             else
             {
-                var newRelation = new List<Guid> {refereeObjectId};
+                var newRelation = new List<ObjectId> {refereeObjectId};
                 relations[relationName] = newRelation;
             }
         }
 
-        public IEnumerable<Guid> GetRelated(string relationName)
+        public IEnumerable<ObjectId> GetRelated(string relationName)
         {
-            List<Guid> existingRelation;
+            List<ObjectId> existingRelation;
             if (relations.TryGetValue(relationName, out existingRelation))
             {
                 return existingRelation;

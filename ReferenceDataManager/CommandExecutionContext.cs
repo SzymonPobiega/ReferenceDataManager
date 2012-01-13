@@ -4,10 +4,10 @@ namespace ReferenceDataManager
 {
     public class CommandExecutionContext : ICommandExecutionContext
     {
-        private readonly Guid targetObjectId;
+        private readonly ObjectId targetObjectId;
         private ObjectState instance;
 
-        public CommandExecutionContext(Guid targetObjectId, ObjectState instance)
+        public CommandExecutionContext(ObjectId targetObjectId, ObjectState instance)
         {
             this.targetObjectId = targetObjectId;
             this.instance = instance;
@@ -23,7 +23,7 @@ namespace ReferenceDataManager
             instance = new ObjectState(targetObjectId);
         }
 
-        public void Attach(Guid refereeObjectId, string relationName)
+        public void Attach(ObjectId refereeObjectId, string relationName)
         {
             Instance.Attach(refereeObjectId, relationName);
         }

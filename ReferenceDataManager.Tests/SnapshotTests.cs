@@ -14,7 +14,7 @@ namespace ReferenceDataManager.Tests
         {
             var snapshot = new Snapshot();
 
-            var nonExisting = snapshot.GetById(Guid.NewGuid());
+            var nonExisting = snapshot.GetById(ObjectId.NewUniqueId());
 
             Assert.IsNull(nonExisting);
         }
@@ -22,7 +22,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_can_create_object_and_get_by_id()
         {
-            var objectId = Guid.NewGuid();
+            var objectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();
@@ -35,7 +35,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_can_get_object_by_id_even_if_it_was_creates_as_part_of_previous_snapshot()
         {
-            var objectId = Guid.NewGuid();
+            var objectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();
@@ -51,8 +51,8 @@ namespace ReferenceDataManager.Tests
         public void It_can_attach_one_object_to_another()
         {
             const string relationName = "RelationName";
-            var refererObjectId = Guid.NewGuid();
-            var refereeObjectId = Guid.NewGuid();
+            var refererObjectId = ObjectId.NewUniqueId();
+            var refereeObjectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();
@@ -70,8 +70,8 @@ namespace ReferenceDataManager.Tests
         public void It_can_attach_one_object_to_another_event_if_it_was_created_as_part_of_previous_snapshot()
         {
             const string relationName = "RelationName";
-            var refererObjectId = Guid.NewGuid();
-            var refereeObjectId = Guid.NewGuid();
+            var refererObjectId = ObjectId.NewUniqueId();
+            var refereeObjectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();

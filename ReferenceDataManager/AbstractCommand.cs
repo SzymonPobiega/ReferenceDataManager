@@ -4,14 +4,14 @@ namespace ReferenceDataManager
 {
     public abstract class AbstractCommand
     {
-        private readonly Guid targetObjectId;
+        private readonly ObjectId targetObjectId;
 
-        protected AbstractCommand(Guid targetObjectId)
+        protected AbstractCommand(ObjectId targetObjectId)
         {
             this.targetObjectId = targetObjectId;
         }
 
-        public Guid TargetObjectId
+        public ObjectId TargetObjectId
         {
             get { return targetObjectId; }
         }

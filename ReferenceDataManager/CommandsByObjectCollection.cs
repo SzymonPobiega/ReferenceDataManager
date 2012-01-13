@@ -5,7 +5,7 @@ namespace ReferenceDataManager
 {
     public class CommandsByObjectCollection
     {
-        private readonly Dictionary<Guid, List<AbstractCommand>> commands = new Dictionary<Guid,List<AbstractCommand>>();
+        private readonly Dictionary<ObjectId, List<AbstractCommand>> commands = new Dictionary<ObjectId,List<AbstractCommand>>();
 
         public void Add(AbstractCommand command)
         {
@@ -21,7 +21,7 @@ namespace ReferenceDataManager
             }
         }
 
-        public void ExecuteCommands(Guid targetObjectId, ICommandExecutionContext context)
+        public void ExecuteCommands(ObjectId targetObjectId, ICommandExecutionContext context)
         {
             List<AbstractCommand> commandsForObject;
             if (!commands.TryGetValue(targetObjectId, out commandsForObject))

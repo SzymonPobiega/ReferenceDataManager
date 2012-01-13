@@ -13,8 +13,8 @@ namespace ReferenceDataManager.Tests
         {
             const string relationName = "Relation";
             var relationCollection = new ObjectRelationCollection();
-            var firstObjectId = Guid.NewGuid();
-            var secondObjectId = Guid.NewGuid();
+            var firstObjectId = ObjectId.NewUniqueId();
+            var secondObjectId = ObjectId.NewUniqueId();
 
             relationCollection.Attach(firstObjectId, relationName);
             relationCollection.Attach(secondObjectId, relationName);
@@ -28,8 +28,8 @@ namespace ReferenceDataManager.Tests
         public void It_can_store_multiple_relations()
         {
             var relationCollection = new ObjectRelationCollection();
-            var firstObjectId = Guid.NewGuid();
-            var secondObjectId = Guid.NewGuid();
+            var firstObjectId = ObjectId.NewUniqueId();
+            var secondObjectId = ObjectId.NewUniqueId();
 
             relationCollection.Attach(firstObjectId, "RelationOne");
             relationCollection.Attach(secondObjectId, "RelationTwo");

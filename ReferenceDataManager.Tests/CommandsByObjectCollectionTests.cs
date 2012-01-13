@@ -10,7 +10,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void Command_targeted_to_certain_object_are_executed()
         {
-            var targetObjectId = Guid.NewGuid();
+            var targetObjectId = ObjectId.NewUniqueId();
             var command = new TestingCommand(targetObjectId);
             var collection = new CommandsByObjectCollection();
             collection.Add(command);
@@ -23,8 +23,8 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void Command_not_targeted_to_certain_object_are_not_executed()
         {
-            var targetObjectId = Guid.NewGuid();
-            var command = new TestingCommand(Guid.NewGuid());
+            var targetObjectId = ObjectId.NewUniqueId();
+            var command = new TestingCommand(ObjectId.NewUniqueId());
             var collection = new CommandsByObjectCollection();
             collection.Add(command);
 
@@ -37,7 +37,7 @@ namespace ReferenceDataManager.Tests
         {
             private bool isExecuted;
 
-            public TestingCommand(Guid targetObjectId) : base(targetObjectId)
+            public TestingCommand(ObjectId targetObjectId) : base(targetObjectId)
             {
             }
 
