@@ -3,11 +3,6 @@ using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
-    public class ObjectRelationCollection
-    {
-        
-    }
-
     public class ObjectState
     {
         private readonly Guid id;
