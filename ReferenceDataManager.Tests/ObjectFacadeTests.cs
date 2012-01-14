@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 
@@ -44,6 +46,31 @@ namespace ReferenceDataManager.Tests
         }
 
         [Test]
+        public void It_maps_relations_to_collections_of_proxy_objects()
+        {
+            const string relationName = "Children";
+
+            var parentObjectId = ObjectId.NewUniqueId();
+            var firstChildObjectId = ObjectId.NewUniqueId();
+            var secondChildObjectId = ObjectId.NewUniqueId();
+            var changeSetId = ChangeSetId.NewUniqueId();
+            var dataFacadeMock = new Mock<IDataFacade>();
+            var parentObjectState = new ObjectState(parentObjectId);
+            parentObjectState.Attach(firstChildObjectId, relationName);
+            parentObjectState.Attach(secondChildObjectId, relationName);
+            dataFacadeMock.Setup(x => x.GetById(changeSetId, parentObjectId)).Returns(parentObjectState);
+            dataFacadeMock.Setup(x => x.GetById(changeSetId, firstChildObjectId)).Returns(new ObjectState(firstChildObjectId));
+            dataFacadeMock.Setup(x => x.GetById(changeSetId, secondChildObjectId)).Returns(new ObjectState(secondChildObjectId));
+            var objectFacade = new ObjectFacade(dataFacadeMock.Object);
+
+            var snapshot = objectFacade.GetSnapshot(changeSetId);
+            var o = snapshot.GetById<TestingObject>(parentObjectId);
+
+            var collection = o.Children;
+            Assert.AreEqual(2, collection.Count());
+        }
+
+        [Test]
         public void It_maps_attributes_without_values_to_default_values_for_their_typs()
         {
             var objectId = ObjectId.NewUniqueId();
@@ -64,6 +91,7 @@ namespace ReferenceDataManager.Tests
         {
             public virtual string TextValue { get; set; }
             public virtual int IntValue { get; set; }
+            public virtual IEnumerable<TestingObject> Children { get; set; }
         }
     }
 }
