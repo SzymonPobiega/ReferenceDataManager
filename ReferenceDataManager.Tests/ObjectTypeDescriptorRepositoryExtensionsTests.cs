@@ -32,7 +32,13 @@ namespace ReferenceDataManager.Tests
             Assert.AreEqual("IntValue", attributeDescriptor.AttributeName);
         }
 
-       
+        [Test]
+        public void It_can_discover_public_object_relation_using_reflection()
+        {
+            var relationDescriptor = typeDescriptor.Relations.Single(x => x.PropertyName == "Children");
+            Assert.AreEqual("ChildrenRelation", relationDescriptor.RelationName);
+        }
+
         [SetUp]
         public void SetUp()
         {
