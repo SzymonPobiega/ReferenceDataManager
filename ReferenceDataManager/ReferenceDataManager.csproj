@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AbstractCommand.cs" />
     <Compile Include="AttachObjectCommand.cs" />
+    <Compile Include="AttributeDescriptor.cs" />
     <Compile Include="ChangeSet.cs" />
     <Compile Include="ChangeSetId.cs" />
     <Compile Include="CommandExecutionContext.cs" />
@@ -66,7 +67,9 @@
     <Compile Include="ISnapshot.cs" />
     <Compile Include="NullSnapshot.cs" />
     <Compile Include="ObjectStateManagementInterceptor.cs" />
+    <Compile Include="ObjectTypeDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelationDescriptor.cs" />
     <Compile Include="Snapshot.cs" />
   </ItemGroup>
   <ItemGroup>
