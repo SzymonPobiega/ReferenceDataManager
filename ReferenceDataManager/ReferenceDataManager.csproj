@@ -55,6 +55,7 @@
     <Compile Include="DataFacade.cs" />
     <Compile Include="IDataFacade.cs" />
     <Compile Include="IObjectSpaceSnapshot.cs" />
+    <Compile Include="ModifyProperyCommand.cs" />
     <Compile Include="ObjectFacade.cs" />
     <Compile Include="ObjectId.cs" />
     <Compile Include="ObjectIdentityMap.cs" />

@@ -24,7 +24,7 @@ namespace ReferenceDataManager.Tests
             var o = facade.GetById(changeSetId, objectId);
 
             Assert.IsNotNull(o);
-        }
+        }        
     }
 }
 // ReSharper restore InconsistentNaming

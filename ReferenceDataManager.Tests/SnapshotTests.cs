@@ -10,7 +10,7 @@ namespace ReferenceDataManager.Tests
     public class SnapshotTests
     {
         [Test]
-        public void It_retusn_null_for_non_exiting_object()
+        public void It_returns_null_for_non_exiting_object()
         {
             var snapshot = new Snapshot();
 
@@ -87,6 +87,40 @@ namespace ReferenceDataManager.Tests
 
             var previousObjectState = snapshot.GetById(refererObjectId);
             Assert.IsFalse(previousObjectState.GetRelated(relationName).Any(x => x == refereeObjectId));
+        }
+
+        [Test]
+        public void It_stores_and_returns_object_properties()
+        {
+            const string property = "Property";
+            var objectId = ObjectId.NewUniqueId();
+            var objectTypeId = Guid.NewGuid();
+
+            var snapshot = new Snapshot();
+            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
+            snapshot.Load(new ModifyProperyCommand(objectId, property, "SomeValue"));
+            var o = snapshot.GetById(objectId);
+
+            Assert.AreEqual("SomeValue", o.GetPropertyValue(property));
+        }
+
+        [Test]
+        public void Property_values_set_on_later_change_sets_override_those_set_on_earlier_change_sets()
+        {
+            const string property = "Property";
+            var objectId = ObjectId.NewUniqueId();
+            var objectTypeId = Guid.NewGuid();
+
+            var snapshot = new Snapshot();
+            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
+            snapshot.Load(new ModifyProperyCommand(objectId, property, "SomeValue"));
+
+            var nextSnapshot = new Snapshot(snapshot);
+            snapshot.Load(new ModifyProperyCommand(objectId, property, "OverridingValue"));
+
+            var o = nextSnapshot.GetById(objectId);
+
+            Assert.AreEqual("OverridingValue", o.GetPropertyValue(property));
         }
     }
 }
