@@ -8,6 +8,8 @@ namespace ReferenceDataManager
         private readonly IDataFacade dataFacade;
         private readonly ChangeSetId changeSetId;
         private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
+        private readonly ObjectIdentityMap identityMap = new ObjectIdentityMap();
+
 
         public ObjectSpaceSnapshot(IDataFacade dataFacade, ChangeSetId changeSetId)
         {
@@ -21,6 +23,17 @@ namespace ReferenceDataManager
         }
 
         public object GetById(Type objectType, ObjectId objectId)
+        {
+            var proxy = identityMap.GetById(objectId);
+            if (proxy == null)
+            {
+                proxy = CreateNewProxy(objectType, objectId);
+                identityMap.Put(objectId, proxy);
+            }
+            return proxy;
+        }
+
+        private object CreateNewProxy(Type objectType, ObjectId objectId)
         {
             var objectState = dataFacade.GetById(changeSetId, objectId);
             var instance = CreateInstance(objectType);
