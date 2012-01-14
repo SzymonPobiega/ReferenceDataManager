@@ -39,6 +39,13 @@ namespace ReferenceDataManager.Tests
             Assert.AreEqual("ChildrenRelation", relationDescriptor.RelationName);
         }
 
+        [Test]
+        public void It_can_discover_protected_object_relation_using_reflection()
+        {
+            var relationDescriptor = typeDescriptor.Relations.Single(x => x.PropertyName == "Related");
+            Assert.AreEqual("Related", relationDescriptor.RelationName);
+        }
+
         [SetUp]
         public void SetUp()
         {
@@ -62,7 +69,7 @@ namespace ReferenceDataManager.Tests
             public virtual IEnumerable<TestingObject> Children { get; set; }
 
             [ObjectRelation]
-            public virtual IEnumerable<TestingObject> Related { get; set; }
+            protected virtual IEnumerable<TestingObject> Related { get; set; }
         }
     }
 }
