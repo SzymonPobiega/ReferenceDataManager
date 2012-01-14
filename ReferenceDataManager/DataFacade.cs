@@ -2,11 +2,11 @@
 
 namespace ReferenceDataManager
 {
-    public class DataFacade
+    public class DataFacade : IDataFacade
     {
         private readonly Dictionary<ChangeSetId, Snapshot> snapshots = new Dictionary<ChangeSetId, Snapshot>();
 
-        public object GetById(ChangeSetId changeSetId, ObjectId objectId)
+        public ObjectState GetById(ChangeSetId changeSetId, ObjectId objectId)
         {
             var snapshot = snapshots[changeSetId];
             return snapshot.GetById(objectId);

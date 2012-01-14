@@ -53,6 +53,8 @@
     <Compile Include="CommandsByObjectCollection.cs" />
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="DataFacade.cs" />
+    <Compile Include="IDataFacade.cs" />
+    <Compile Include="ObjectFacade.cs" />
     <Compile Include="ObjectId.cs" />
     <Compile Include="ObjectRelationCollection.cs" />
     <Compile Include="ObjectState.cs" />
