@@ -67,8 +67,10 @@
     <Compile Include="ISnapshot.cs" />
     <Compile Include="NullSnapshot.cs" />
     <Compile Include="ObjectStateManagementInterceptor.cs" />
+    <Compile Include="ObjectTypeAttribute.cs" />
     <Compile Include="ObjectTypeDescriptor.cs" />
     <Compile Include="ObjectTypeDescriptorRepository.cs" />
+    <Compile Include="ObjectTypeDescriptorRepositoryExtensions.cs" />
     <Compile Include="ObjectTypeId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationDescriptor.cs" />
