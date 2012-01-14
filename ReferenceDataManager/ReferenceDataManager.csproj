@@ -57,9 +57,11 @@
     <Compile Include="IDataFacade.cs" />
     <Compile Include="IObjectSpaceSnapshot.cs" />
     <Compile Include="ModifyAttributeCommand.cs" />
+    <Compile Include="ObjectAttributeAttribute.cs" />
     <Compile Include="ObjectFacade.cs" />
     <Compile Include="ObjectId.cs" />
     <Compile Include="ObjectIdentityMap.cs" />
+    <Compile Include="ObjectRelationAttribute.cs" />
     <Compile Include="ObjectRelationCollection.cs" />
     <Compile Include="ObjectSpaceSnapshot.cs" />
     <Compile Include="ObjectState.cs" />
