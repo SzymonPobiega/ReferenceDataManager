@@ -4,14 +4,16 @@ namespace ReferenceDataManager
 {
     public class ObjectFacade
     {
+        private readonly IDataFacade dataFacade;
+
         public ObjectFacade(IDataFacade dataFacade)
         {
-            
+            this.dataFacade = dataFacade;
         }
 
-        public T GetById<T>(ObjectId objectId)
+        public IObjectSpaceSnapshot GetSnapshot(ChangeSetId changeSetId)
         {
-            return default(T);
+            return new ObjectSpaceSnapshot(dataFacade, changeSetId);
         }
     }
 }
