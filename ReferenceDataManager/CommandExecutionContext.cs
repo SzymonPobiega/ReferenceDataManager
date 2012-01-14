@@ -28,9 +28,9 @@ namespace ReferenceDataManager
             Instance.Attach(refereeObjectId, relationName);
         }
 
-        public void ModifyProperty(string propertyName, object value)
+        public void ModifyAttribute(string attributeName, object value)
         {
-            Instance.ModifyProperty(propertyName, value);
+            Instance.ModifyAttribute(attributeName, value);
         }
     }
 }

@@ -90,18 +90,18 @@ namespace ReferenceDataManager.Tests
         }
 
         [Test]
-        public void It_stores_and_returns_object_properties()
+        public void It_stores_and_returns_object_attributes()
         {
-            const string property = "Property";
+            const string attributeName = "Attribute";
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
 
             var snapshot = new Snapshot();
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
-            snapshot.Load(new ModifyProperyCommand(objectId, property, "SomeValue"));
+            snapshot.Load(new ModifyAttributeCommand(objectId, attributeName, "SomeValue"));
             var o = snapshot.GetById(objectId);
 
-            Assert.AreEqual("SomeValue", o.GetPropertyValue(property));
+            Assert.AreEqual("SomeValue", o.GetAttributeValue(attributeName));
         }
 
         [Test]
@@ -113,14 +113,14 @@ namespace ReferenceDataManager.Tests
 
             var snapshot = new Snapshot();
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
-            snapshot.Load(new ModifyProperyCommand(objectId, property, "SomeValue"));
+            snapshot.Load(new ModifyAttributeCommand(objectId, property, "SomeValue"));
 
             var nextSnapshot = new Snapshot(snapshot);
-            snapshot.Load(new ModifyProperyCommand(objectId, property, "OverridingValue"));
+            snapshot.Load(new ModifyAttributeCommand(objectId, property, "OverridingValue"));
 
             var o = nextSnapshot.GetById(objectId);
 
-            Assert.AreEqual("OverridingValue", o.GetPropertyValue(property));
+            Assert.AreEqual("OverridingValue", o.GetAttributeValue(property));
         }
     }
 }

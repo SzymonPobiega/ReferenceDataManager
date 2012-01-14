@@ -6,6 +6,6 @@ namespace ReferenceDataManager
     {
         void Create(Guid objectTypeId);
         void Attach(ObjectId refereeObjectId, string relationName);
-        void ModifyProperty(string propertyName, object value);
+        void ModifyAttribute(string attributeName, object value);
     }
 }

@@ -7,7 +7,7 @@ namespace ReferenceDataManager
     {
         private readonly ObjectId id;
         private readonly ObjectRelationCollection relations = new ObjectRelationCollection();
-        private readonly Dictionary<string, object> properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> attributes = new Dictionary<string, object>();
 
         public ObjectState(ObjectId id)
         {
@@ -29,15 +29,15 @@ namespace ReferenceDataManager
             return relations.GetRelated(relationName);
         }
 
-        public void ModifyProperty(string propertyName, object value)
+        public void ModifyAttribute(string propertyName, object value)
         {
-            properties[propertyName] = value;
+            attributes[propertyName] = value;
         }
 
-        public object GetPropertyValue(string propertyName)
+        public object GetAttributeValue(string propertyName)
         {
             object existingValue;
-            return properties.TryGetValue(propertyName, out existingValue) ? existingValue : null;
+            return attributes.TryGetValue(propertyName, out existingValue) ? existingValue : null;
         }
     }
 }

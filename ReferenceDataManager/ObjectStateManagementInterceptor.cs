@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy;
+﻿using System;
+using Castle.DynamicProxy;
 
 namespace ReferenceDataManager
 {
@@ -17,7 +18,32 @@ namespace ReferenceDataManager
 
         public void Intercept(IInvocation invocation)
         {
-            invocation.Proceed();
+            if (IsPropertyGetMethod(invocation))
+            {
+                var attributeName = invocation.Method.Name.Substring(4);
+                var attributeValue = GetAttributeValue(invocation, attributeName);
+                invocation.ReturnValue = attributeValue;
+            }
+            else
+            {
+                invocation.Proceed();                
+            }
+        }
+
+        private object GetAttributeValue(IInvocation invocation, string attributeName)
+        {
+            var attributeValue = objectState.GetAttributeValue(attributeName);
+            var returnType = invocation.Method.ReturnType;
+            if (returnType.IsValueType && attributeValue == null)
+            {
+                attributeValue = Activator.CreateInstance(returnType);
+            }
+            return attributeValue;
+        }
+
+        private static bool IsPropertyGetMethod(IInvocation invocation)
+        {
+            return invocation.Method.IsSpecialName && invocation.Method.Name.StartsWith("get_");
         }
     }
 }
