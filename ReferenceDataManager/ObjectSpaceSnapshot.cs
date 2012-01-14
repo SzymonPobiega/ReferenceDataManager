@@ -5,18 +5,16 @@ namespace ReferenceDataManager
 {
     public class ObjectSpaceSnapshot : IObjectSpaceSnapshot
     {
-        private readonly IDataFacade dataFacade;
+        private readonly IDataRetrievalStrategy dataRetrievalStrategy;
         private readonly ObjectTypeDescriptorRepository objectTypeDescriptorRepository;
-        private readonly ChangeSetId changeSetId;
         private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         private readonly ObjectIdentityMap identityMap = new ObjectIdentityMap();
 
-
-        public ObjectSpaceSnapshot(IDataFacade dataFacade, ObjectTypeDescriptorRepository objectTypeDescriptorRepository, ChangeSetId changeSetId)
+        
+        public ObjectSpaceSnapshot(ObjectTypeDescriptorRepository objectTypeDescriptorRepository, IDataRetrievalStrategy dataRetrievalStrategy)
         {
-            this.dataFacade = dataFacade;
             this.objectTypeDescriptorRepository = objectTypeDescriptorRepository;
-            this.changeSetId = changeSetId;
+            this.dataRetrievalStrategy = dataRetrievalStrategy;
         }
 
         public T GetById<T>(ObjectId objectId)
@@ -29,7 +27,7 @@ namespace ReferenceDataManager
             var proxy = identityMap.GetById(objectId);
             if (proxy == null)
             {
-                var objectState = dataFacade.GetById(changeSetId, objectId);
+                var objectState = dataRetrievalStrategy.GetById(objectId);
                 var typeDescriptor = objectTypeDescriptorRepository.GetByTypeId(objectState.TypeId);
                 proxy = CreateNewProxy(typeDescriptor.RuntimeType, objectState);
                 identityMap.Put(objectId, proxy);

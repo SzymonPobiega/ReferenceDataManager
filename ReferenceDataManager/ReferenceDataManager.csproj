@@ -57,9 +57,13 @@
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="CreateObjectCommandHandler.cs" />
     <Compile Include="DataFacade.cs" />
+    <Compile Include="IChangeSet.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IDataFacade.cs" />
+    <Compile Include="IDataRetrievalStrategy.cs" />
+    <Compile Include="IDataStore.cs" />
+    <Compile Include="IObjectFacade.cs" />
     <Compile Include="IObjectSpaceSnapshot.cs" />
     <Compile Include="ModifyAttributeCommand.cs" />
     <Compile Include="ModifyAttributeCommandHandler.cs" />
@@ -80,9 +84,13 @@
     <Compile Include="ObjectTypeDescriptorRepository.cs" />
     <Compile Include="ObjectTypeDescriptorRepositoryExtensions.cs" />
     <Compile Include="ObjectTypeId.cs" />
+    <Compile Include="PendingChangesDataRetrievalStrategy.cs" />
+    <Compile Include="PersistentDataRetrievalStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationDescriptor.cs" />
     <Compile Include="Snapshot.cs" />
+    <Compile Include="SnapshotCache.cs" />
+    <Compile Include="UncommittedChangeSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

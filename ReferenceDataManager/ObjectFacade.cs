@@ -2,7 +2,7 @@ using System;
 
 namespace ReferenceDataManager
 {
-    public class ObjectFacade
+    public class ObjectFacade : IObjectFacade
     {
         private readonly IDataFacade dataFacade;
         private readonly ObjectTypeDescriptorRepository objectTypeDescriptorRepository;
@@ -15,7 +15,17 @@ namespace ReferenceDataManager
 
         public IObjectSpaceSnapshot GetSnapshot(ChangeSetId changeSetId)
         {
-            return new ObjectSpaceSnapshot(dataFacade, objectTypeDescriptorRepository, changeSetId);
+            return new ObjectSpaceSnapshot(objectTypeDescriptorRepository, new PersistentDataRetrievalStrategy(dataFacade, changeSetId));
+        }
+
+        public IObjectSpaceSnapshot GetSnapshot(UncommittedChangeSet pendingChanges)
+        {
+            return new ObjectSpaceSnapshot(objectTypeDescriptorRepository, new PendingChangesDataRetrievalStrategy(dataFacade, pendingChanges));
+        }
+
+        public void Commit(UncommittedChangeSet newChangeSet)
+        {
+            dataFacade.Commit(newChangeSet);
         }
     }
 }

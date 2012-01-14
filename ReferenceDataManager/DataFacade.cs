@@ -5,50 +5,40 @@ namespace ReferenceDataManager
 {
     public class DataFacade : IDataFacade
     {
-        private readonly Dictionary<ChangeSetId, Snapshot> snapshots = new Dictionary<ChangeSetId, Snapshot>();
-        private readonly ICommandExecutor commandExecutor;
+        private readonly SnapshotCache snapshots;
+        private readonly IDataStore dataStore;
 
-        public DataFacade(ICommandExecutor commandExecutor)
+        public DataFacade(ICommandExecutor commandExecutor, IDataStore dataStore)
         {
-            this.commandExecutor = commandExecutor;
+            this.dataStore = dataStore;
+            this.snapshots = new SnapshotCache(dataStore, commandExecutor);
         }
 
-        public ObjectState GetById(ChangeSetId changeSetId, ObjectId objectId)
+        public ObjectState GetById(ObjectId objectId, ChangeSetId changeSetId)
         {
-            Snapshot snapshot;
-            if (!snapshots.TryGetValue(changeSetId, out snapshot))
-            {
-                throw new InvalidOperationException(string.Format("Cannot load state of object {0} in context of non-existing change set {1}", objectId, changeSetId));
-            }
+            var snapshot = snapshots.GetById(changeSetId);
+            return snapshot.GetById(objectId);
+        }       
+
+        public ObjectState GetById(ObjectId objectId, UncommittedChangeSet pendingChanges)
+        {
+            var snapshot = snapshots.Create(pendingChanges);
             return snapshot.GetById(objectId);
         }
 
-        public void LoadChangeSet(ChangeSet changeSet)
+        public void Commit(UncommittedChangeSet pendingChanges)
         {
-            if (snapshots.ContainsKey(changeSet.Id))
+            var snapshot = snapshots.Create(pendingChanges);
+            try
             {
-                throw new InvalidOperationException(string.Format("Another change set with the id {0} has already been loaded.", changeSet.Id));
+                dataStore.Store(pendingChanges);
+                snapshots.Add(pendingChanges.Id, snapshot);
             }
-            snapshots[changeSet.Id] = CreateSnapshot(changeSet);
-        }
-
-        private Snapshot CreateSnapshot(ChangeSet changeSet)
-        {
-            Snapshot snapshot;
-            if (changeSet.ParentId.HasValue)
+            catch (Exception)
             {
-                var parent = snapshots[changeSet.ParentId.Value];
-                snapshot = new Snapshot(parent, commandExecutor);
-            }
-            else
-            {
-                snapshot = new Snapshot(commandExecutor);
-            }
-            foreach (var command in changeSet.Commands)
-            {
-                snapshot.Load(command);
-            }
-            return snapshot;
+                snapshots.Invalidate(snapshot);
+                throw;
+            }            
         }
     }
 }

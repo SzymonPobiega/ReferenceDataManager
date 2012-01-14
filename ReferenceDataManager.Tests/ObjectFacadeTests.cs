@@ -22,7 +22,7 @@ namespace ReferenceDataManager.Tests
         public void It_returns_same_reference_each_time_when_getting_object_with_certain_id()
         {
             var objectState = new ObjectState(objectId, objectTypeId);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(objectState);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(objectState);
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var firstReference = snapshot.GetById<TestingObject>(objectId);
@@ -38,7 +38,7 @@ namespace ReferenceDataManager.Tests
             var objectState = new ObjectState(objectId, objectTypeId);
             objectState.ModifyAttribute("TextValue", "SomeValue");
             objectState.ModifyAttribute("IntValue", 42);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(objectState);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(objectState);
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var o = snapshot.GetById<TestingObject>(objectId);
@@ -52,7 +52,7 @@ namespace ReferenceDataManager.Tests
         {
             var objectState = new ObjectState(objectId, objectTypeId);
             objectState.ModifyAttribute("NotMappedProperty", 10.5m);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(objectState);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(objectState);
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var o = snapshot.GetById<TestingObject>(objectId);
@@ -70,9 +70,9 @@ namespace ReferenceDataManager.Tests
             var parentObjectState = new ObjectState(objectId, objectTypeId);
             parentObjectState.Attach(firstChildObjectId, relationName);
             parentObjectState.Attach(secondChildObjectId, relationName);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(parentObjectState);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, firstChildObjectId)).Returns(new ObjectState(firstChildObjectId, objectTypeId));
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, secondChildObjectId)).Returns(new ObjectState(secondChildObjectId, objectTypeId));
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(parentObjectState);
+            dataFacadeMock.Setup(x => x.GetById(firstChildObjectId, changeSetId)).Returns(new ObjectState(firstChildObjectId, objectTypeId));
+            dataFacadeMock.Setup(x => x.GetById(secondChildObjectId, changeSetId)).Returns(new ObjectState(secondChildObjectId, objectTypeId));
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var o = snapshot.GetById<TestingObject>(objectId);
@@ -89,8 +89,8 @@ namespace ReferenceDataManager.Tests
             var parentObjectId = ObjectId.NewUniqueId();
             var thisObjectState = new ObjectState(objectId, objectTypeId);
             thisObjectState.Attach(parentObjectId, relationName);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(thisObjectState);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, parentObjectId)).Returns(new ObjectState(parentObjectId, objectTypeId));
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(thisObjectState);
+            dataFacadeMock.Setup(x => x.GetById(parentObjectId, changeSetId)).Returns(new ObjectState(parentObjectId, objectTypeId));
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var o = snapshot.GetById<TestingObject>(objectId);
@@ -107,8 +107,8 @@ namespace ReferenceDataManager.Tests
             thisObjectState.Attach(parentObjectId, "Parent");
             var parentObjectState = new ObjectState(parentObjectId, objectTypeId);
             parentObjectState.Attach(objectId, "Children");
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(thisObjectState);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, parentObjectId)).Returns(parentObjectState);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(thisObjectState);
+            dataFacadeMock.Setup(x => x.GetById(parentObjectId, changeSetId)).Returns(parentObjectState);
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var objectDirectly = snapshot.GetById<TestingObject>(objectId);
@@ -122,7 +122,7 @@ namespace ReferenceDataManager.Tests
         public void It_maps_attributes_without_values_to_default_values_for_their_typs()
         {
             var objectState = new ObjectState(objectId, objectTypeId);
-            dataFacadeMock.Setup(x => x.GetById(changeSetId, objectId)).Returns(objectState);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(objectState);
 
             var snapshot = objectFacade.GetSnapshot(changeSetId);
             var o = snapshot.GetById<TestingObject>(objectId);

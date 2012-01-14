@@ -2,6 +2,8 @@
 {
     public interface IDataFacade
     {
-        ObjectState GetById(ChangeSetId changeSetId, ObjectId objectId);
+        ObjectState GetById(ObjectId objectId, ChangeSetId changeSetId);
+        ObjectState GetById(ObjectId objectId, UncommittedChangeSet pendingChanges);
+        void Commit(UncommittedChangeSet pendingChanges);
     }
 }

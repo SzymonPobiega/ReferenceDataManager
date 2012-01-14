@@ -1,6 +1,6 @@
 ﻿namespace ReferenceDataManager
 {
-    public interface ISnapshot
+    public interface IDataRetrievalStrategy
     {
         ObjectState GetById(ObjectId objectId);
     }

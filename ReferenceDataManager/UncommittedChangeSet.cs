@@ -1,20 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
-    public class ChangeSet : IChangeSet
+    public class UncommittedChangeSet : IChangeSet
     {
         private readonly ChangeSetId? parentId;
-        private readonly ChangeSetId id;
-        private readonly List<AbstractCommand> commands;
+        private readonly ChangeSetId id = ChangeSetId.NewUniqueId();
+        private readonly List<AbstractCommand> commands = new List<AbstractCommand>();
 
-        public ChangeSet(ChangeSetId id, ChangeSetId? parentId, IEnumerable<AbstractCommand> commands)
+        public UncommittedChangeSet(ChangeSetId? parentId)
         {
-            this.id = id;
             this.parentId = parentId;
-            this.commands = commands.ToList();
+        }
+
+        public UncommittedChangeSet Add(AbstractCommand command)
+        {
+            commands.Add(command);
+            return this;
         }
 
         public IEnumerable<AbstractCommand> Commands
@@ -32,5 +34,4 @@ namespace ReferenceDataManager
             get { return id; }
         }
     }
-
 }

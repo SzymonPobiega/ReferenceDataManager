@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
@@ -16,7 +15,7 @@ namespace ReferenceDataManager
         }
 
         public Snapshot(ICommandExecutor commandExecutor)
-            : this(new NullSnapshot(), commandExecutor)
+            : this(NullSnapshot.Instance, commandExecutor)
         {
         }        
 
