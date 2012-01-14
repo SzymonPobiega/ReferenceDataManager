@@ -18,9 +18,9 @@ namespace ReferenceDataManager
             get { return instance; }
         }
 
-        public void Create(Guid objectTypeId)
+        public void Create(ObjectTypeId objectTypeId)
         {
-            instance = new ObjectState(targetObjectId);
+            instance = new ObjectState(targetObjectId, objectTypeId);
         }
 
         public void Attach(ObjectId refereeObjectId, string relationName)

@@ -38,5 +38,15 @@ namespace ReferenceDataManager
         {
             get { return relations; }
         }
+
+        public AttributeDescriptor GetAttributeByPropertyName(string propertyName)
+        {
+            return attributes.FirstOrDefault(x => x.PropertyName == propertyName);
+        }
+
+        public RelationDescriptor GetRelationByPropertyName(string propertyName)
+        {
+            return relations.FirstOrDefault(x => x.PropertyName == propertyName);
+        }
     }
 }

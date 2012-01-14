@@ -8,11 +8,13 @@ namespace ReferenceDataManager.Tests
     [TestFixture]
     public class DataFacadeTests
     {
+        private ICommandExecutor commandExecutor;
+
         [Test]
         public void It_throws_exception_when_trying_to_load_two_change_sets_with_same_ids()
         {
             var changeSetId = ChangeSetId.NewUniqueId();
-            var facade = new DataFacade();
+            var facade = new DataFacade(commandExecutor);
             facade.LoadChangeSet(new ChangeSet(changeSetId, null, new AbstractCommand[] {}));
             
             Assert.Throws<InvalidOperationException>( () => facade.LoadChangeSet(new ChangeSet(changeSetId, null, new AbstractCommand[] {})) );
@@ -23,7 +25,7 @@ namespace ReferenceDataManager.Tests
         {
             var objectId = ObjectId.NewUniqueId();
             var changeSetId = ChangeSetId.NewUniqueId();
-            var facade = new DataFacade();
+            var facade = new DataFacade(commandExecutor);
 
             Assert.Throws<InvalidOperationException>(() => facade.GetById(changeSetId, objectId));
         }
@@ -33,8 +35,8 @@ namespace ReferenceDataManager.Tests
         {
             var changeSetId = ChangeSetId.NewUniqueId();
             var objectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
-            var facade = new DataFacade();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
+            var facade = new DataFacade(commandExecutor);
             var commands = new List<AbstractCommand>
                                {
                                    new CreateObjectCommand(objectTypeId, objectId)
@@ -44,7 +46,16 @@ namespace ReferenceDataManager.Tests
             var o = facade.GetById(changeSetId, objectId);
 
             Assert.IsNotNull(o);
-        }        
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            commandExecutor = new CommandExecutor()
+                .RegisterCommandHandler(new AttachObjectCommandHandler())
+                .RegisterCommandHandler(new CreateObjectCommandHandler())
+                .RegisterCommandHandler(new ModifyAttributeCommandHandler());
+        }
     }
 }
 // ReSharper restore InconsistentNaming

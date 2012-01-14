@@ -1,20 +1,18 @@
-﻿using System;
-
-namespace ReferenceDataManager
+﻿namespace ReferenceDataManager
 {
     public class CreateObjectCommand : AbstractCommand
     {
-        private readonly Guid objectTypeId;
+        private readonly ObjectTypeId objectTypeId;
 
-        public CreateObjectCommand(Guid objectTypeId, ObjectId objectId)
+        public CreateObjectCommand(ObjectTypeId objectTypeId, ObjectId objectId)
             : base(objectId)
         {
             this.objectTypeId = objectTypeId;
         }
 
-        public override void Execute(ICommandExecutionContext context)
+        public ObjectTypeId ObjectTypeId
         {
-            context.Create(objectTypeId);
+            get { return objectTypeId; }
         }
     }
 }

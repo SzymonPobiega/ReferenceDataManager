@@ -1,4 +1,5 @@
 using System;
+using Moq;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming
@@ -10,45 +11,35 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void Command_targeted_to_certain_object_are_executed()
         {
+            var executorMock = new Mock<ICommandExecutor>();
             var targetObjectId = ObjectId.NewUniqueId();
             var command = new TestingCommand(targetObjectId);
             var collection = new CommandsByObjectCollection();
             collection.Add(command);
 
-            collection.ExecuteCommands(targetObjectId, null);
+            collection.ExecuteCommands(targetObjectId, executorMock.Object, null);
 
-            Assert.IsTrue(command.IsExecuted);
+            executorMock.Verify(x => x.Execute(command, null), Times.Once());
         }
 
         [Test]
         public void Command_not_targeted_to_certain_object_are_not_executed()
         {
+            var executorMock = new Mock<ICommandExecutor>();
             var targetObjectId = ObjectId.NewUniqueId();
             var command = new TestingCommand(ObjectId.NewUniqueId());
             var collection = new CommandsByObjectCollection();
             collection.Add(command);
 
-            collection.ExecuteCommands(targetObjectId, null);
+            collection.ExecuteCommands(targetObjectId, executorMock.Object, null);
 
-            Assert.IsFalse(command.IsExecuted);
+            executorMock.Verify(x => x.Execute(command, null), Times.Never());
         }
 
         private class TestingCommand : AbstractCommand
         {
-            private bool isExecuted;
-
             public TestingCommand(ObjectId targetObjectId) : base(targetObjectId)
             {
-            }
-
-            public bool IsExecuted
-            {
-                get { return isExecuted; }
-            }
-
-            public override void Execute(ICommandExecutionContext context)
-            {
-                isExecuted = true;
             }
         }
     }

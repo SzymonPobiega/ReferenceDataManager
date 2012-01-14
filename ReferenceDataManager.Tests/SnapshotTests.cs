@@ -9,10 +9,12 @@ namespace ReferenceDataManager.Tests
     [TestFixture]
     public class SnapshotTests
     {
+        private ICommandExecutor commandExecutor;
+
         [Test]
         public void It_returns_null_for_non_exiting_object()
         {
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
 
             var nonExisting = snapshot.GetById(ObjectId.NewUniqueId());
 
@@ -23,9 +25,9 @@ namespace ReferenceDataManager.Tests
         public void It_can_create_object_and_get_by_id()
         {
             var objectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
             var o = snapshot.GetById(objectId);
 
@@ -36,12 +38,12 @@ namespace ReferenceDataManager.Tests
         public void It_can_get_object_by_id_even_if_it_was_creates_as_part_of_previous_snapshot()
         {
             var objectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
 
-            var nextSnapshot = new Snapshot(snapshot);
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
             var o = nextSnapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
@@ -53,9 +55,9 @@ namespace ReferenceDataManager.Tests
             const string relationName = "RelationName";
             var refererObjectId = ObjectId.NewUniqueId();
             var refereeObjectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
             snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
 
@@ -72,13 +74,13 @@ namespace ReferenceDataManager.Tests
             const string relationName = "RelationName";
             var refererObjectId = ObjectId.NewUniqueId();
             var refereeObjectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
             snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
 
-            var nextSnapshot = new Snapshot(snapshot);
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
 
             nextSnapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
 
@@ -94,9 +96,9 @@ namespace ReferenceDataManager.Tests
         {
             const string attributeName = "Attribute";
             var objectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
             snapshot.Load(new ModifyAttributeCommand(objectId, attributeName, "SomeValue"));
             var o = snapshot.GetById(objectId);
@@ -109,18 +111,27 @@ namespace ReferenceDataManager.Tests
         {
             const string property = "Property";
             var objectId = ObjectId.NewUniqueId();
-            var objectTypeId = Guid.NewGuid();
+            var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot();
+            var snapshot = new Snapshot(commandExecutor);
             snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
             snapshot.Load(new ModifyAttributeCommand(objectId, property, "SomeValue"));
 
-            var nextSnapshot = new Snapshot(snapshot);
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
             snapshot.Load(new ModifyAttributeCommand(objectId, property, "OverridingValue"));
 
             var o = nextSnapshot.GetById(objectId);
 
             Assert.AreEqual("OverridingValue", o.GetAttributeValue(property));
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            commandExecutor = new CommandExecutor()
+                .RegisterCommandHandler(new AttachObjectCommandHandler())
+                .RegisterCommandHandler(new CreateObjectCommandHandler())
+                .RegisterCommandHandler(new ModifyAttributeCommandHandler());
         }
     }
 }

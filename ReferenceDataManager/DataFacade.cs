@@ -6,6 +6,12 @@ namespace ReferenceDataManager
     public class DataFacade : IDataFacade
     {
         private readonly Dictionary<ChangeSetId, Snapshot> snapshots = new Dictionary<ChangeSetId, Snapshot>();
+        private readonly ICommandExecutor commandExecutor;
+
+        public DataFacade(ICommandExecutor commandExecutor)
+        {
+            this.commandExecutor = commandExecutor;
+        }
 
         public ObjectState GetById(ChangeSetId changeSetId, ObjectId objectId)
         {
@@ -32,11 +38,11 @@ namespace ReferenceDataManager
             if (changeSet.ParentId.HasValue)
             {
                 var parent = snapshots[changeSet.ParentId.Value];
-                snapshot = new Snapshot(parent);
+                snapshot = new Snapshot(parent, commandExecutor);
             }
             else
             {
-                snapshot = new Snapshot();
+                snapshot = new Snapshot(commandExecutor);
             }
             foreach (var command in changeSet.Commands)
             {

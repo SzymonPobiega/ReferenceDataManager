@@ -6,17 +6,24 @@ namespace ReferenceDataManager
     public class ObjectState
     {
         private readonly ObjectId id;
+        private readonly ObjectTypeId typeId;
         private readonly ObjectRelationCollection relations = new ObjectRelationCollection();
         private readonly Dictionary<string, object> attributes = new Dictionary<string, object>();
 
-        public ObjectState(ObjectId id)
+        public ObjectState(ObjectId id, ObjectTypeId typeId)
         {
             this.id = id;
+            this.typeId = typeId;
         }
 
         public ObjectId Id
         {
             get { return id; }
+        }
+
+        public ObjectTypeId TypeId
+        {
+            get { return typeId; }
         }
 
         public void Attach(ObjectId refereeObjectId, string relationName)

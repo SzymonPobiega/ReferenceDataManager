@@ -7,6 +7,11 @@ namespace ReferenceDataManager
 {
     public static class ObjectTypeDescriptorRepositoryExtensions
     {
+        public static ObjectTypeDescriptorRepository RegisterUsingReflection<T>(this ObjectTypeDescriptorRepository repository)
+        {
+            return RegisterUsingReflection(repository, typeof (T));
+        }
+
         public static ObjectTypeDescriptorRepository RegisterUsingReflection(this ObjectTypeDescriptorRepository repository, Type typeToRegister)
         {
             var typeAttibute = typeToRegister

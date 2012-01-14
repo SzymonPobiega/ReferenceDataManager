@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReferenceDataManager
+﻿namespace ReferenceDataManager
 {
     public abstract class AbstractCommand
     {
@@ -15,7 +13,5 @@ namespace ReferenceDataManager
         {
             get { return targetObjectId; }
         }
-
-        public abstract void Execute(ICommandExecutionContext context);
     }
 }

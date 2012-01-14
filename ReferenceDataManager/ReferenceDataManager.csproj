@@ -47,16 +47,22 @@
   <ItemGroup>
     <Compile Include="AbstractCommand.cs" />
     <Compile Include="AttachObjectCommand.cs" />
+    <Compile Include="AttachObjectCommandHandler.cs" />
     <Compile Include="AttributeDescriptor.cs" />
     <Compile Include="ChangeSet.cs" />
     <Compile Include="ChangeSetId.cs" />
     <Compile Include="CommandExecutionContext.cs" />
+    <Compile Include="CommandExecutor.cs" />
     <Compile Include="CommandsByObjectCollection.cs" />
     <Compile Include="CreateObjectCommand.cs" />
+    <Compile Include="CreateObjectCommandHandler.cs" />
     <Compile Include="DataFacade.cs" />
+    <Compile Include="ICommandExecutor.cs" />
+    <Compile Include="ICommandHandler.cs" />
     <Compile Include="IDataFacade.cs" />
     <Compile Include="IObjectSpaceSnapshot.cs" />
     <Compile Include="ModifyAttributeCommand.cs" />
+    <Compile Include="ModifyAttributeCommandHandler.cs" />
     <Compile Include="ObjectAttributeAttribute.cs" />
     <Compile Include="ObjectFacade.cs" />
     <Compile Include="ObjectId.cs" />

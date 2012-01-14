@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandExecutorTests.cs" />
     <Compile Include="CommandsByObjectCollectionTests.cs" />
     <Compile Include="DataFacadeTests.cs" />
     <Compile Include="ObjectFacadeTests.cs" />

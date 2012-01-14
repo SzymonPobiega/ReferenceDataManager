@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReferenceDataManager
+﻿namespace ReferenceDataManager
 {
     public class AttachObjectCommand : AbstractCommand
     {
@@ -14,9 +12,14 @@ namespace ReferenceDataManager
             this.relationName = relationName;
         }
 
-        public override void Execute(ICommandExecutionContext context)
+        public string RelationName
         {
-            context.Attach(refereeObjectId, relationName);
+            get { return relationName; }
+        }
+
+        public ObjectId RefereeObjectId
+        {
+            get { return refereeObjectId; }
         }
     }
 }

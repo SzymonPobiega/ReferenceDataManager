@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReferenceDataManager
+﻿namespace ReferenceDataManager
 {
     public class ModifyAttributeCommand : AbstractCommand
     {
@@ -14,9 +12,14 @@ namespace ReferenceDataManager
             this.value = value;
         }
 
-        public override void Execute(ICommandExecutionContext context)
+        public string AttributeName
         {
-            context.ModifyAttribute(attributeName, value);
+            get { return attributeName; }
+        }
+
+        public object Value
+        {
+            get { return value; }
         }
     }
 }

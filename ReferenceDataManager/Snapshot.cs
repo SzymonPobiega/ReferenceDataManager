@@ -7,14 +7,16 @@ namespace ReferenceDataManager
     {
         private readonly CommandsByObjectCollection commandsByObject = new CommandsByObjectCollection();
         private readonly ISnapshot parentSnapshot;
+        private readonly ICommandExecutor commandExecutor;
 
-        public Snapshot(ISnapshot parentSnapshot)
+        public Snapshot(ISnapshot parentSnapshot, ICommandExecutor commandExecutor)
         {
             this.parentSnapshot = parentSnapshot;
+            this.commandExecutor = commandExecutor;
         }
 
-        public Snapshot()
-            : this(new NullSnapshot())
+        public Snapshot(ICommandExecutor commandExecutor)
+            : this(new NullSnapshot(), commandExecutor)
         {
         }        
 
@@ -27,7 +29,7 @@ namespace ReferenceDataManager
         {
             var inheritedObjectState = parentSnapshot.GetById(objectId);
             var context = new CommandExecutionContext(objectId, inheritedObjectState);
-            commandsByObject.ExecuteCommands(objectId, context);
+            commandsByObject.ExecuteCommands(objectId, commandExecutor, context);
             return context.Instance;
         }
     }

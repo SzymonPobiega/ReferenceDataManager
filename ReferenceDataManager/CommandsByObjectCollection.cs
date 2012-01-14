@@ -21,7 +21,7 @@ namespace ReferenceDataManager
             }
         }
 
-        public void ExecuteCommands(ObjectId targetObjectId, ICommandExecutionContext context)
+        public void ExecuteCommands(ObjectId targetObjectId, ICommandExecutor commandExecutor, ICommandExecutionContext context)
         {
             List<AbstractCommand> commandsForObject;
             if (!commands.TryGetValue(targetObjectId, out commandsForObject))
@@ -30,7 +30,7 @@ namespace ReferenceDataManager
             }
             foreach (var command in commandsForObject)
             {
-                command.Execute(context);
+                commandExecutor.Execute(command, context);
             }
         }
     }
