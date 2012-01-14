@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
     public class DataFacade
     {
-        private readonly Dictionary<Guid, Snapshot> snapshots = new Dictionary<Guid, Snapshot>();
+        private readonly Dictionary<ChangeSetId, Snapshot> snapshots = new Dictionary<ChangeSetId, Snapshot>();
 
-        public object GetById(Guid changeSetId, ObjectId objectId)
+        public object GetById(ChangeSetId changeSetId, ObjectId objectId)
         {
             var snapshot = snapshots[changeSetId];
             return snapshot.GetById(objectId);

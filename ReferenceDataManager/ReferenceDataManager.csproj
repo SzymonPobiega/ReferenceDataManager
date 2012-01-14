@@ -45,6 +45,7 @@
     <Compile Include="AbstractCommand.cs" />
     <Compile Include="AttachObjectCommand.cs" />
     <Compile Include="ChangeSet.cs" />
+    <Compile Include="ChangeSetId.cs" />
     <Compile Include="CommandExecutionContext.cs" />
     <Compile Include="CommandsByObjectCollection.cs" />
     <Compile Include="CreateObjectCommand.cs" />

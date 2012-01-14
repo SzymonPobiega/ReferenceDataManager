@@ -11,7 +11,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_creates_object_and_returns_it_by_id()
         {
-            var changeSetId = Guid.NewGuid();
+            var changeSetId = ChangeSetId.NewUniqueId();
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = Guid.NewGuid();
             var facade = new DataFacade();

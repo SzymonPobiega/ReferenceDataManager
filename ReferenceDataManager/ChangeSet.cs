@@ -6,11 +6,11 @@ namespace ReferenceDataManager
 {
     public class ChangeSet
     {
-        private readonly Guid? parentId;
-        private readonly Guid id;
+        private readonly ChangeSetId? parentId;
+        private readonly ChangeSetId id;
         private readonly List<AbstractCommand> commands;
 
-        public ChangeSet(Guid id, Guid? parentId, IEnumerable<AbstractCommand> commands)
+        public ChangeSet(ChangeSetId id, ChangeSetId? parentId, IEnumerable<AbstractCommand> commands)
         {
             this.id = id;
             this.parentId = parentId;
@@ -22,12 +22,12 @@ namespace ReferenceDataManager
             get { return commands; }
         }
 
-        public Guid? ParentId
+        public ChangeSetId? ParentId
         {
             get { return parentId; }
         }
 
-        public Guid Id
+        public ChangeSetId Id
         {
             get { return id; }
         }
