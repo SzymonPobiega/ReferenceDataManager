@@ -1,4 +1,5 @@
 ﻿using System;
+using Castle.DynamicProxy;
 
 namespace ReferenceDataManager
 {
@@ -6,6 +7,7 @@ namespace ReferenceDataManager
     {
         private readonly IDataFacade dataFacade;
         private readonly ChangeSetId changeSetId;
+        private static readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
 
         public ObjectSpaceSnapshot(IDataFacade dataFacade, ChangeSetId changeSetId)
         {
@@ -15,8 +17,21 @@ namespace ReferenceDataManager
 
         public T GetById<T>(ObjectId objectId)
         {
+            return (T)GetById(typeof (T), objectId);
+        }
+
+        public object GetById(Type objectType, ObjectId objectId)
+        {
             var objectState = dataFacade.GetById(changeSetId, objectId);
-            return default(T);
+            var instance = CreateInstance(objectType);
+            var interceptor = new ObjectStateManagementInterceptor(objectState, dataFacade, changeSetId);
+            var proxy = proxyGenerator.CreateClassProxyWithTarget(objectType, instance, interceptor);
+            return proxy;
+        }
+
+        private static object CreateInstance(Type objectType)
+        {
+            return Activator.CreateInstance(objectType);
         }
     }
 }

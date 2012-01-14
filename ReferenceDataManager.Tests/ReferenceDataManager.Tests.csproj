@@ -51,6 +51,7 @@
     <Compile Include="CommandsByObjectCollectionTests.cs" />
     <Compile Include="DataFacadeTests.cs" />
     <Compile Include="ObjectFacadeTests.cs" />
+    <Compile Include="ObjectIdentityMapTests.cs" />
     <Compile Include="ObjectRelationCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnapshotTests.cs" />

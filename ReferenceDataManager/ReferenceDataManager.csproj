@@ -57,12 +57,14 @@
     <Compile Include="IObjectSpaceSnapshot.cs" />
     <Compile Include="ObjectFacade.cs" />
     <Compile Include="ObjectId.cs" />
+    <Compile Include="ObjectIdentityMap.cs" />
     <Compile Include="ObjectRelationCollection.cs" />
     <Compile Include="ObjectSpaceSnapshot.cs" />
     <Compile Include="ObjectState.cs" />
     <Compile Include="ICommandExecutionContext.cs" />
     <Compile Include="ISnapshot.cs" />
     <Compile Include="NullSnapshot.cs" />
+    <Compile Include="ObjectStateManagementInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Snapshot.cs" />
   </ItemGroup>
