@@ -50,6 +50,7 @@
     <Compile Include="AttachObjectCommandHandler.cs" />
     <Compile Include="AttributeDescriptor.cs" />
     <Compile Include="ChangeSet.cs" />
+    <Compile Include="ChangeSetBuilder.cs" />
     <Compile Include="ChangeSetId.cs" />
     <Compile Include="CommandExecutionContext.cs" />
     <Compile Include="CommandExecutor.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="ObjectTypeAttribute.cs" />
     <Compile Include="ObjectTypeDescriptor.cs" />
     <Compile Include="ObjectTypeDescriptorRepository.cs" />
-    <Compile Include="ObjectTypeDescriptorRepositoryExtensions.cs" />
+    <Compile Include="AttributeBasedObjectTypeMapping.cs" />
     <Compile Include="ObjectTypeId.cs" />
     <Compile Include="PendingChangesDataRetrievalStrategy.cs" />
     <Compile Include="PersistentDataRetrievalStrategy.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="RelationDescriptor.cs" />
     <Compile Include="Snapshot.cs" />
     <Compile Include="SnapshotCache.cs" />
+    <Compile Include="TypedCommand.cs" />
+    <Compile Include="TypedCommandHandlerExtensions.cs" />
     <Compile Include="UncommittedChangeSet.cs" />
     <Compile Include="UpdatableObjectSpaceSnapshot.cs" />
   </ItemGroup>

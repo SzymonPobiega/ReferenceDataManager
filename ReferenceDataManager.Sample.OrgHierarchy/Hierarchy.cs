@@ -8,6 +8,14 @@
         public virtual ObjectId Id { get; protected set; }
 
         [ObjectRelation]
-        public virtual HierarchyNode Root { get; protected set; }
+        protected internal virtual HierarchyNode RootNode { get; protected set; }
+
+        public Unit RootUnit
+        {
+            get
+            {
+                return RootNode != null ? RootNode.Unit : null;
+            }
+        }
     }
 }

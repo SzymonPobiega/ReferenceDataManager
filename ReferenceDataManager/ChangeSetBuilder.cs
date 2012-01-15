@@ -1,4 +1,4 @@
-﻿namespace ReferenceDataManager.Sample.OrgHierarchy
+﻿namespace ReferenceDataManager
 {
     public class ChangeSetBuilder
     {
@@ -14,6 +14,11 @@
         public UncommittedChangeSet PendingChanges
         {
             get { return pendingChanges; }
+        }
+
+        public T AddCommandAndPreviewTarget<T>(AbstractCommand command)
+        {
+            return Add(command).GetPreview().GetById<T>(command.TargetObjectId);
         }
 
         public ChangeSetBuilder Add(AbstractCommand command)

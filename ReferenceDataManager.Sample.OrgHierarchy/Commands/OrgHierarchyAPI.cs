@@ -1,31 +1,19 @@
-using System;
 using System.Linq;
 
-namespace ReferenceDataManager.Sample.OrgHierarchy
+namespace ReferenceDataManager.Sample.OrgHierarchy.Commands
 {
-    public static class UncommittedChangeSetExtensions
+    public static class OrgHierarchyAPI
     {
         public static Unit CreateUnit(this ChangeSetBuilder pendingChanges, string name, Address address)
         {
-            var objectId = ObjectId.NewUniqueId();
-            var command = new CreateUnitCommand(objectId)
-                              {
-                                  Name = name,
-                                  Address = address
-                              };
             return pendingChanges
-                .Add(command)
-                .GetPreview()
-                .GetById<Unit>(objectId);
+                .AddCommandAndPreviewTarget<Unit>(new CreateUnitCommand(name, address));
         }
 
         public static Hierarchy CreateHierarchy(this ChangeSetBuilder pendingChanges)
         {
-            var objectId = ObjectId.NewUniqueId();
             return pendingChanges
-                .Add(new CreateObjectCommand(ObjectTypeId.Parse(Hierarchy.TypeId), objectId))
-                .GetPreview()
-                .GetById<Hierarchy>(objectId);
+                .AddCommandAndPreviewTarget<Hierarchy>(new CreateHierarchyCommand());
         }
 
         public static void SetHierarchyRoot(this ChangeSetBuilder pendingChanges, Hierarchy hierarchy, Unit newRoot)
@@ -59,8 +47,8 @@ namespace ReferenceDataManager.Sample.OrgHierarchy
             {
                 var nodeId = ObjectId.NewUniqueId();
                 return pendingChanges
-                    .Add(new CreateHierarchyNodeCommand(nodeId, target.Id, hierarchy.Id))
                     .Add(new AttachToHierarchyCommand(target.Id, nodeId))
+                    .Add(new CreateHierarchyNodeCommand(nodeId, target.Id, hierarchy.Id))
                     .GetPreview()
                     .GetById<HierarchyNode>(nodeId);
             }

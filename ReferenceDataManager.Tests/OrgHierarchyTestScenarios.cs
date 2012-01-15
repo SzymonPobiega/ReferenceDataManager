@@ -1,11 +1,13 @@
 using System.Linq;
 using NUnit.Framework;
+using ReferenceDataManager.Sample.OrgHierarchy;
+using ReferenceDataManager.Sample.OrgHierarchy.Commands;
 
 // ReSharper disable InconsistentNaming
-namespace ReferenceDataManager.Sample.OrgHierarchy
+namespace ReferenceDataManager.Tests
 {
     [TestFixture]
-    public class TestScenarios
+    public class OrgHierarchyTestScenarios
     {
         private ObjectFacade objectFacade;
         private DataFacade dataFacade;
@@ -14,24 +16,22 @@ namespace ReferenceDataManager.Sample.OrgHierarchy
         public void Parent_and_child()
         {
             ObjectId hierarchyId;
-            var changeSetBuilder = new ChangeSetBuilder(objectFacade, null);
+            var builder = new ChangeSetBuilder(objectFacade, null);
             {
-                var hierarchy = changeSetBuilder.CreateHierarchy();
+                var hierarchy = builder.CreateHierarchy();
                 hierarchyId = hierarchy.Id;
-                var parentUnit = changeSetBuilder.CreateUnit("Parent", new Address("Lubicz", "23", "Krakow", "PL"));
-                var childUnit = changeSetBuilder.CreateUnit("Child", null);
+                var parentUnit = builder.CreateUnit("Parent", new Address("Lubicz", "23", "Krakow", "PL"));
+                var childUnit = builder.CreateUnit("Child", null);
 
-                changeSetBuilder.SetHierarchyRoot(hierarchy, parentUnit);
-                changeSetBuilder.SetParent(hierarchy, childUnit, parentUnit);
+                builder.SetHierarchyRoot(hierarchy, parentUnit);
+                builder.SetParent(hierarchy, childUnit, parentUnit);
             } 
-            var view = objectFacade.GetSnapshot(changeSetBuilder.PendingChanges);
+            var view = objectFacade.GetSnapshot(builder.PendingChanges);
             {
                 var hierarchy = view.GetById<Hierarchy>(hierarchyId);
-                var rootNode = hierarchy.Root;
-                var rootUnit = rootNode.Unit;
-                var children = rootNode.Children;
-                var childUnits = children.Select(x => x.Unit);
-                var firstChildUnit = childUnits.FirstOrDefault();
+                var rootUnit = hierarchy.RootUnit;
+                var childUnits = hierarchy.RootUnit.GetChildrenWithin(hierarchy);
+                var firstChildUnit = childUnits.First();
 
                 Assert.AreEqual("Parent", rootUnit.Name);
                 Assert.AreEqual(new Address("Lubicz", "23", "Krakow", "PL"), rootUnit.Address);
@@ -45,8 +45,7 @@ namespace ReferenceDataManager.Sample.OrgHierarchy
             var dataStore = new InMemoryDataStore();
             var commandExecutor = new CommandExecutor()
                 .RegisterCommandHandler(new CreateUnitCommandHandler())
-                .RegisterCommandHandler(new CreateObjectCommandHandler())
-                .RegisterCommandHandler(new DeleteObjectCommandHandler())
+                .RegisterCommandHandler(new CreateHierarchyCommandHandler())
                 .RegisterCommandHandler(new SetHierarchyRootCommandHandler())
                 .RegisterCommandHandler(new MoveUnitCommandHandler())
                 .RegisterCommandHandler(new CreateHierarchyNodeCommandHandler())

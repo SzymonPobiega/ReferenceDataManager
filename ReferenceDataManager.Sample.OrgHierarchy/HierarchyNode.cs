@@ -10,15 +10,15 @@ namespace ReferenceDataManager.Sample.OrgHierarchy
         public virtual ObjectId Id { get; protected set; }
 
         [ObjectRelation]
-        public virtual Unit Unit { get; protected set; }
+        protected internal virtual Unit Unit { get; protected set; }
 
         [ObjectRelation]
-        public virtual HierarchyNode Parent { get; protected set; }
+        protected internal virtual HierarchyNode Parent { get; protected set; }
 
         [ObjectRelation]
-        public virtual IEnumerable<HierarchyNode> Children { get; protected set; }
+        protected internal virtual IEnumerable<HierarchyNode> Children { get; protected set; }
 
         [ObjectRelation]
-        public virtual Hierarchy Context { get; protected set; }
+        protected internal virtual Hierarchy Context { get; protected set; }
     }
 }

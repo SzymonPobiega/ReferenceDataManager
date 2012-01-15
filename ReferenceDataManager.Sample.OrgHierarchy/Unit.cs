@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ReferenceDataManager.Sample.OrgHierarchy
 {
@@ -16,6 +17,21 @@ namespace ReferenceDataManager.Sample.OrgHierarchy
         public virtual Address Address { get; protected set; }
 
         [ObjectRelation]
-        public virtual IEnumerable<HierarchyNode> Nodes { get; protected set; }
+        protected internal virtual IEnumerable<HierarchyNode> Nodes { get; protected set; }
+
+        public Unit GetParentWithin(Hierarchy hierarchy)
+        {
+            return GetNodeFor(hierarchy).Parent.Unit;
+        }
+
+        public IEnumerable<Unit> GetChildrenWithin(Hierarchy hierarchy)
+        {
+            return GetNodeFor(hierarchy).Children.Select(x => x.Unit);
+        }
+
+        private HierarchyNode GetNodeFor(Hierarchy hierarchy)
+        {
+            return Nodes.Single(x => x.Context == hierarchy);
+        }
     }
 }

@@ -29,7 +29,7 @@ namespace ReferenceDataManager
             {
                 var objectState = RetrieveData(objectId);
                 var typeDescriptor = objectTypeDescriptorRepository.GetByTypeId(objectState.TypeId);
-                proxy = CreateNewProxy(typeDescriptor.RuntimeType, objectState);
+                proxy = CreateNewProxy(typeDescriptor, objectState);
                 identityMap.Put(objectId, proxy);
             }
             return proxy;
@@ -41,18 +41,11 @@ namespace ReferenceDataManager
         }
 
 
-        private object CreateNewProxy(Type objectType, ObjectState objectState)
+        private object CreateNewProxy(ObjectTypeDescriptor typeDescriptor, ObjectState objectState)
         {
-            var typeDescriptor = objectTypeDescriptorRepository.GetByTypeId(objectState.TypeId);
-            var instance = CreateInstance(objectType);
             var interceptor = new ObjectStateManagementInterceptor(objectState, typeDescriptor, GetById);
-            var proxy = proxyGenerator.CreateClassProxyWithTarget(objectType,  instance, interceptor);
+            var proxy = proxyGenerator.CreateClassProxy(typeDescriptor.RuntimeType, interceptor);
             return proxy;
-        }
-
-        private static object CreateInstance(Type objectType)
-        {
-            return Activator.CreateInstance(objectType);
         }
     }
 }
