@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
@@ -23,9 +24,24 @@ namespace ReferenceDataManager
             instance = new ObjectState(targetObjectId, objectTypeId);
         }
 
+        public void Delete()
+        {
+            instance = null;
+        }
+
         public void Attach(ObjectId refereeObjectId, string relationName)
         {
             Instance.Attach(refereeObjectId, relationName);
+        }
+
+        public void Detach(ObjectId refereeObjectId, string relationName)
+        {
+            Instance.Detach(refereeObjectId, relationName);
+        }
+
+        public IEnumerable<ObjectId> GetRelated(string relationName)
+        {
+            return Instance.GetRelated(relationName);
         }
 
         public void ModifyAttribute(string attributeName, object value)

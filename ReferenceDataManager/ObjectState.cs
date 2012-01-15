@@ -46,5 +46,10 @@ namespace ReferenceDataManager
             object existingValue;
             return attributes.TryGetValue(propertyName, out existingValue) ? existingValue : null;
         }
+
+        public void Detach(ObjectId refereeObjectId, string relationName)
+        {
+            relations.Detach(refereeObjectId, relationName);
+        }
     }
 }

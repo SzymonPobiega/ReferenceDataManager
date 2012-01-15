@@ -27,12 +27,17 @@ namespace ReferenceDataManager
             var proxy = identityMap.GetById(objectId);
             if (proxy == null)
             {
-                var objectState = dataRetrievalStrategy.GetById(objectId);
+                var objectState = RetrieveData(objectId);
                 var typeDescriptor = objectTypeDescriptorRepository.GetByTypeId(objectState.TypeId);
                 proxy = CreateNewProxy(typeDescriptor.RuntimeType, objectState);
                 identityMap.Put(objectId, proxy);
             }
             return proxy;
+        }
+
+        protected virtual ObjectState RetrieveData(ObjectId objectId)
+        {
+            return dataRetrievalStrategy.GetById(objectId);
         }
 
 
@@ -41,7 +46,7 @@ namespace ReferenceDataManager
             var typeDescriptor = objectTypeDescriptorRepository.GetByTypeId(objectState.TypeId);
             var instance = CreateInstance(objectType);
             var interceptor = new ObjectStateManagementInterceptor(objectState, typeDescriptor, GetById);
-            var proxy = proxyGenerator.CreateClassProxyWithTarget(objectType, instance, interceptor);
+            var proxy = proxyGenerator.CreateClassProxyWithTarget(objectType,  instance, interceptor);
             return proxy;
         }
 

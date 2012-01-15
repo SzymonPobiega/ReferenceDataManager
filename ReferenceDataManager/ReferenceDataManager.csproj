@@ -57,6 +57,8 @@
     <Compile Include="CreateObjectCommand.cs" />
     <Compile Include="CreateObjectCommandHandler.cs" />
     <Compile Include="DataFacade.cs" />
+    <Compile Include="DeleteObjectCommand.cs" />
+    <Compile Include="DeleteObjectCommandHandler.cs" />
     <Compile Include="IChangeSet.cs" />
     <Compile Include="ICommandExecutor.cs" />
     <Compile Include="ICommandHandler.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="IDataStore.cs" />
     <Compile Include="IObjectFacade.cs" />
     <Compile Include="IObjectSpaceSnapshot.cs" />
+    <Compile Include="IUpdatableObjectSpaceSnapshot.cs" />
     <Compile Include="ModifyAttributeCommand.cs" />
     <Compile Include="ModifyAttributeCommandHandler.cs" />
     <Compile Include="ObjectAttributeAttribute.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Snapshot.cs" />
     <Compile Include="SnapshotCache.cs" />
     <Compile Include="UncommittedChangeSet.cs" />
+    <Compile Include="UpdatableObjectSpaceSnapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,11 +5,13 @@ namespace ReferenceDataManager
     public class ObjectFacade : IObjectFacade
     {
         private readonly IDataFacade dataFacade;
+        private readonly ICommandExecutor commandExecutor;
         private readonly ObjectTypeDescriptorRepository objectTypeDescriptorRepository;
 
-        public ObjectFacade(IDataFacade dataFacade, ObjectTypeDescriptorRepository objectTypeDescriptorRepository)
+        public ObjectFacade(IDataFacade dataFacade, ObjectTypeDescriptorRepository objectTypeDescriptorRepository, ICommandExecutor commandExecutor)
         {
             this.dataFacade = dataFacade;
+            this.commandExecutor = commandExecutor;
             this.objectTypeDescriptorRepository = objectTypeDescriptorRepository;
         }
 
@@ -18,9 +20,9 @@ namespace ReferenceDataManager
             return new ObjectSpaceSnapshot(objectTypeDescriptorRepository, new PersistentDataRetrievalStrategy(dataFacade, changeSetId));
         }
 
-        public IObjectSpaceSnapshot GetSnapshot(UncommittedChangeSet pendingChanges)
+        public IUpdatableObjectSpaceSnapshot GetSnapshot(UncommittedChangeSet pendingChanges)
         {
-            return new ObjectSpaceSnapshot(objectTypeDescriptorRepository, new PendingChangesDataRetrievalStrategy(dataFacade, pendingChanges));
+            return new UpdatableObjectSpaceSnapshot(objectTypeDescriptorRepository, new PendingChangesDataRetrievalStrategy(dataFacade, pendingChanges), commandExecutor);
         }
 
         public void Commit(UncommittedChangeSet newChangeSet)

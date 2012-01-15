@@ -33,6 +33,10 @@ namespace ReferenceDataManager
                 {
                     invocation.ReturnValue = GetRelationValue(property);
                 }
+                else if (IsMappedToObjectId(property))
+                {
+                    invocation.ReturnValue = objectState.Id;
+                }
                 else
                 {
                     invocation.Proceed();
@@ -43,7 +47,12 @@ namespace ReferenceDataManager
                 invocation.Proceed();                
             }
         }
-        
+
+        private static bool IsMappedToObjectId(PropertyInfo propertyInfo)
+        {
+            return propertyInfo.Name == "Id";
+        }
+
         private bool IsMappedToRelation(PropertyInfo propertyInfo)
         {
             return objectTypeDescriptor.GetRelationByPropertyName(propertyInfo.Name) != null;

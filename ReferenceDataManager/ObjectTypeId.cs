@@ -43,6 +43,11 @@ namespace ReferenceDataManager
             return uniqueId.ToString();
         }
 
+        public static ObjectTypeId Parse(string stringRepresentation)
+        {
+            return new ObjectTypeId(new Guid(stringRepresentation));
+        }
+
         public static ObjectTypeId NewUniqueId()
         {
             return new ObjectTypeId(Guid.NewGuid());

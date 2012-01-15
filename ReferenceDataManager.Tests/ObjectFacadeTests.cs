@@ -48,6 +48,18 @@ namespace ReferenceDataManager.Tests
         }
 
         [Test]
+        public void It_maps_object_id_to_special_property()
+        {
+            var objectState = new ObjectState(objectId, objectTypeId);
+            dataFacadeMock.Setup(x => x.GetById(objectId, changeSetId)).Returns(objectState);
+
+            var snapshot = objectFacade.GetSnapshot(changeSetId);
+            var o = snapshot.GetById<TestingObject>(objectId);
+
+            Assert.AreEqual(objectId, o.Id);
+        }
+
+        [Test]
         public void It_does_not_map_attributes_that_are_not_listed_in_object_type_descriptor()
         {
             var objectState = new ObjectState(objectId, objectTypeId);
@@ -139,12 +151,14 @@ namespace ReferenceDataManager.Tests
             changeSetId = ChangeSetId.NewUniqueId();
             typeRepository = new ObjectTypeDescriptorRepository().RegisterUsingReflection<TestingObject>();
             dataFacadeMock = new Mock<IDataFacade>();
-            objectFacade = new ObjectFacade(dataFacadeMock.Object, typeRepository); 
+            objectFacade = new ObjectFacade(dataFacadeMock.Object, typeRepository, new Mock<ICommandExecutor>().Object); 
         }
 
         [ObjectType(objectTypeIdValue)]
         public class TestingObject
         {
+            public virtual ObjectId Id { get; set; }
+
             public virtual decimal NotMappedProperty { get; set; }
             [ObjectAttribute]
             public virtual string TextValue { get; set; }

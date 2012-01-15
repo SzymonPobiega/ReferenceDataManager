@@ -27,9 +27,18 @@ namespace ReferenceDataManager
             List<ObjectId> existingRelation;
             if (relations.TryGetValue(relationName, out existingRelation))
             {
-                return existingRelation;
+                return new List<ObjectId>(existingRelation);
             }
             return emptyRelatedList;
+        }
+
+        public void Detach(ObjectId refereeObjectId, string relationName)
+        {
+            List<ObjectId> existingRelation;
+            if (relations.TryGetValue(relationName, out existingRelation))
+            {
+                existingRelation.Remove(refereeObjectId);
+            }
         }
     }
 }
