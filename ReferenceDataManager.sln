@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceDataManager.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceDataManager.Sample.OrgHierarchy", "ReferenceDataManager.Sample.OrgHierarchy\ReferenceDataManager.Sample.OrgHierarchy.csproj", "{3F0C67E2-ED65-4773-8149-F29EE2CC04D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceDataManager.RavenDB", "ReferenceDataManager.RavenDB\ReferenceDataManager.RavenDB.csproj", "{6DDA2275-DA24-41B0-A2D2-6F443620E36E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{3F0C67E2-ED65-4773-8149-F29EE2CC04D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0C67E2-ED65-4773-8149-F29EE2CC04D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0C67E2-ED65-4773-8149-F29EE2CC04D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DDA2275-DA24-41B0-A2D2-6F443620E36E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DDA2275-DA24-41B0-A2D2-6F443620E36E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DDA2275-DA24-41B0-A2D2-6F443620E36E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DDA2275-DA24-41B0-A2D2-6F443620E36E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
