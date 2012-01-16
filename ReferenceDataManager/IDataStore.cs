@@ -4,7 +4,7 @@ namespace ReferenceDataManager
 {
     public interface IDataStore
     {
-        IEnumerable<ChangeSet> LoadAll();
+        IEnumerable<ChangeSet> LoadAllChangeSets();
         void Store(UncommittedChangeSet changeSet);
     }
 }

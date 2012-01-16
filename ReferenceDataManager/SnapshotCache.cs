@@ -62,7 +62,7 @@ namespace ReferenceDataManager
                 return;
             }
             snapshots = new Dictionary<ChangeSetId, ISnapshot>();
-            var changeSets = dataStore.LoadAll();
+            var changeSets = dataStore.LoadAllChangeSets();
             foreach (var changeSet in changeSets)
             {
                 var snapshot = CreateSnapshot(changeSet);

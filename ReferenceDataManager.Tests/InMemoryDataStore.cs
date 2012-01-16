@@ -12,7 +12,7 @@ namespace ReferenceDataManager.Tests
             get { return changeSets; }
         }
 
-        public IEnumerable<ChangeSet> LoadAll()
+        public IEnumerable<ChangeSet> LoadAllChangeSets()
         {
             return changeSets;
         }

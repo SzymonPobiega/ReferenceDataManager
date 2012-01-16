@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReferenceDataManager
+﻿namespace ReferenceDataManager
 {
     public class Snapshot : ISnapshot
     {
