@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ReferenceDataManager
 {
@@ -21,6 +22,11 @@ namespace ReferenceDataManager
         {
             ObjectTypeDescriptor existing;
             return map.TryGetValue(objectTypeId, out existing) ? existing : null;
+        }
+
+        public ObjectTypeDescriptor GetByRuntimeType(Type runtimeType)
+        {
+            return map.Values.FirstOrDefault(x => x.RuntimeType == runtimeType);
         }
     }
 }

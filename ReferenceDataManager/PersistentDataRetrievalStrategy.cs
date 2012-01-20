@@ -1,4 +1,7 @@
-﻿namespace ReferenceDataManager
+﻿using System;
+using System.Collections.Generic;
+
+namespace ReferenceDataManager
 {
     public class PersistentDataRetrievalStrategy : IDataRetrievalStrategy
     {
@@ -14,6 +17,11 @@
         public ObjectState GetById(ObjectId objectId)
         {
             return dataFacade.GetById(objectId, lastedChangeSetId);
+        }
+
+        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId)
+        {
+            return dataFacade.ListByType(objectTypeId, lastedChangeSetId);
         }
     }
 }

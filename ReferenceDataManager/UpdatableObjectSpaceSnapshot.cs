@@ -29,5 +29,15 @@ namespace ReferenceDataManager
             loadedStates[objectId] = data;
             return data;
         }
+
+        protected override IEnumerable<ObjectState> RetrieveData(ObjectTypeId objectTypeId)
+        {
+            var data = base.RetrieveData(objectTypeId);
+            foreach (var loadedState in data)
+            {
+                loadedStates[loadedState.Id] = loadedState;                
+            }
+            return data;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Castle.DynamicProxy;
 
 namespace ReferenceDataManager
@@ -22,6 +23,22 @@ namespace ReferenceDataManager
             return (T)GetById(objectId);
         }
 
+        public IEnumerable<T> List<T>()
+        {
+            var typeDescriptor = objectTypeDescriptorRepository.GetByRuntimeType(typeof(T));            
+            var objectStates = RetrieveData(typeDescriptor.ObjectTypeId);
+            foreach (var objectState in objectStates)
+            {
+                var proxy = identityMap.GetById(objectState.Id);
+                if (proxy == null)
+                {
+                    proxy = CreateNewProxy(typeDescriptor, objectState);
+                    identityMap.Put(objectState.Id, proxy);
+                }
+                yield return (T)proxy;
+            }
+        }
+
         public object GetById(ObjectId objectId)
         {
             var proxy = identityMap.GetById(objectId);
@@ -38,6 +55,11 @@ namespace ReferenceDataManager
         protected virtual ObjectState RetrieveData(ObjectId objectId)
         {
             return dataRetrievalStrategy.GetById(objectId);
+        }
+
+        protected virtual IEnumerable<ObjectState> RetrieveData(ObjectTypeId objectTypeId)
+        {
+            return dataRetrievalStrategy.ListByType(objectTypeId);
         }
 
 

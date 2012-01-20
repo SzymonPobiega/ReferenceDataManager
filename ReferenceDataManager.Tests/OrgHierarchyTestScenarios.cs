@@ -36,6 +36,9 @@ namespace ReferenceDataManager.Tests
                 Assert.AreEqual("Parent", rootUnit.Name);
                 Assert.AreEqual(new Address("Lubicz", "23", "Krakow", "PL"), rootUnit.Address);
                 Assert.AreEqual("Child", firstChildUnit.Name);
+
+                var allUnits = view.List<Unit>().ToList();
+                Assert.AreEqual(2, allUnits.Count());
             }
         }
 

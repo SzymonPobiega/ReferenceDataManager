@@ -1,4 +1,7 @@
-﻿namespace ReferenceDataManager
+﻿using System;
+using System.Collections.Generic;
+
+namespace ReferenceDataManager
 {
     public sealed class NullSnapshot : ISnapshot
     {
@@ -11,6 +14,11 @@
         public ObjectState GetById(ObjectId objectId)
         {
             return null;
+        }
+
+        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId)
+        {
+            yield break;
         }
     }
 }
