@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Castle.DynamicProxy;
 
 namespace ReferenceDataManager
@@ -59,7 +60,7 @@ namespace ReferenceDataManager
 
         protected virtual IEnumerable<ObjectState> RetrieveData(ObjectTypeId objectTypeId)
         {
-            return dataRetrievalStrategy.ListByType(objectTypeId);
+            return dataRetrievalStrategy.Enumerate().Where(x => x.TypeId == objectTypeId);
         }
 
 

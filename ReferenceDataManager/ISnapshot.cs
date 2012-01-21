@@ -5,6 +5,6 @@ namespace ReferenceDataManager
     public interface ISnapshot
     {
         ObjectState GetById(ObjectId objectId);
-        IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId);
+        IEnumerable<ObjectState> Enumerate();
     }
 }

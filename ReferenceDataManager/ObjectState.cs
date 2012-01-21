@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ReferenceDataManager
 {
@@ -6,13 +7,28 @@ namespace ReferenceDataManager
     {
         private readonly ObjectId id;
         private readonly ObjectTypeId typeId;
-        private readonly ObjectRelationCollection relations = new ObjectRelationCollection();
-        private readonly Dictionary<string, object> attributes = new Dictionary<string, object>();
+        private readonly ObjectRelationCollection relations;
+        private readonly Dictionary<string, object> attributes;
 
         public ObjectState(ObjectId id, ObjectTypeId typeId)
         {
             this.id = id;
             this.typeId = typeId;
+            relations = new ObjectRelationCollection();
+            attributes = new Dictionary<string, object>();
+        }
+
+        private ObjectState(ObjectState objectStateToClone)
+        {
+            id = objectStateToClone.id;
+            typeId = objectStateToClone.typeId;
+            relations = objectStateToClone.relations.Clone();
+            attributes = new Dictionary<string, object>(objectStateToClone.attributes);
+        }
+
+        public ObjectState Clone()
+        {
+            return new ObjectState(this);
         }
 
         public ObjectId Id

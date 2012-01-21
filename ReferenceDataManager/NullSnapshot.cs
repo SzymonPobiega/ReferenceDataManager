@@ -16,7 +16,7 @@ namespace ReferenceDataManager
             return null;
         }
 
-        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId)
+        public IEnumerable<ObjectState> Enumerate()
         {
             yield break;
         }

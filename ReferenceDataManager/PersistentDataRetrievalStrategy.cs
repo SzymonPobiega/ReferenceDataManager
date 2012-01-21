@@ -19,9 +19,9 @@ namespace ReferenceDataManager
             return dataFacade.GetById(objectId, lastedChangeSetId);
         }
 
-        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId)
+        public IEnumerable<ObjectState> Enumerate()
         {
-            return dataFacade.ListByType(objectTypeId, lastedChangeSetId);
+            return dataFacade.Enumerate(lastedChangeSetId);
         }
     }
 }

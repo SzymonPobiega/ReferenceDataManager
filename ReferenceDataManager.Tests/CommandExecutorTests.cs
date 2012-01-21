@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Moq;
 using NUnit.Framework;
 
@@ -51,10 +52,38 @@ namespace ReferenceDataManager.Tests
 
             Assert.Throws<InvalidOperationException>(act);
         }
+        
+        [Test]
+        public void It_optimizes_command_execution()
+        {
+            var executor = new CommandExecutor();
+            var handler = new PerformanceTestingCommandHandler();
+            executor.RegisterCommandHandler(handler);
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            executor.Execute(new TestingCommand(ObjectId.NewUniqueId()), new Mock<ICommandExecutionContext>().Object);
+            stopwatch.Stop();
+            var firstRunTime = stopwatch.ElapsedTicks;
+            stopwatch.Reset();
+            stopwatch.Start();
+            executor.Execute(new TestingCommand(ObjectId.NewUniqueId()), new Mock<ICommandExecutionContext>().Object);
+            stopwatch.Stop();
+            var secondRunTime = stopwatch.ElapsedTicks;
+
+            Assert.IsTrue(secondRunTime * 500 < firstRunTime);
+        }
 
         public class TestingCommand : AbstractCommand
         {
             public TestingCommand(ObjectId targetObjectId) : base(targetObjectId)
+            {
+            }
+        }
+
+        public class PerformanceTestingCommandHandler : ICommandHandler<TestingCommand>
+        {
+            public void Handle(TestingCommand command, ICommandExecutionContext context)
             {
             }
         }

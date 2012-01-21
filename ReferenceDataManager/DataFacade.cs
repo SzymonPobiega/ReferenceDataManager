@@ -14,16 +14,16 @@ namespace ReferenceDataManager
             this.snapshots = new SnapshotCache(dataStore, commandExecutor);
         }
 
-        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId, ChangeSetId changeSetId)
+        public IEnumerable<ObjectState> Enumerate(ChangeSetId changeSetId)
         {
             var snapshot = snapshots.GetById(changeSetId);
-            return snapshot.ListByType(objectTypeId);
+            return snapshot.Enumerate();
         }
 
-        public IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId, UncommittedChangeSet pendingChanges)
+        public IEnumerable<ObjectState> Enumerate(UncommittedChangeSet pendingChanges)
         {
             var snapshot = snapshots.Create(pendingChanges);
-            return snapshot.ListByType(objectTypeId);
+            return snapshot.Enumerate();
         }
 
         public ObjectState GetById(ObjectId objectId, ChangeSetId changeSetId)

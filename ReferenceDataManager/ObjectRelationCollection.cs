@@ -5,8 +5,23 @@ namespace ReferenceDataManager
 {
     public class ObjectRelationCollection
     {
-        private readonly Dictionary<string, List<ObjectId>> relations = new Dictionary<string, List<ObjectId>>();
+        private readonly Dictionary<string, List<ObjectId>> relations;
         private static readonly ObjectId[] emptyRelatedList = new ObjectId[] {};
+
+        public ObjectRelationCollection()
+        {
+            relations = new Dictionary<string, List<ObjectId>>();
+        }
+
+        private ObjectRelationCollection(ObjectRelationCollection collectionToClone)
+        {
+            relations = new Dictionary<string, List<ObjectId>>();
+            foreach (var pair in collectionToClone.relations)
+            {
+                var clonedList = new List<ObjectId>(pair.Value);
+                relations.Add(pair.Key, clonedList);
+            }
+        }
 
         public void Attach(ObjectId refereeObjectId, string relationName)
         {
@@ -39,6 +54,11 @@ namespace ReferenceDataManager
             {
                 existingRelation.Remove(refereeObjectId);
             }
+        }
+
+        public ObjectRelationCollection Clone()
+        {
+            return new ObjectRelationCollection(this);
         }
     }
 }

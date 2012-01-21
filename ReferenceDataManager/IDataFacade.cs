@@ -4,8 +4,8 @@ namespace ReferenceDataManager
 {
     public interface IDataFacade
     {
-        IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId, ChangeSetId changeSetId);
-        IEnumerable<ObjectState> ListByType(ObjectTypeId objectTypeId, UncommittedChangeSet pendingChanges);
+        IEnumerable<ObjectState> Enumerate(ChangeSetId changeSetId);
+        IEnumerable<ObjectState> Enumerate(UncommittedChangeSet pendingChanges);
         ObjectState GetById(ObjectId objectId, ChangeSetId changeSetId);
         ObjectState GetById(ObjectId objectId, UncommittedChangeSet pendingChanges);
         void Commit(UncommittedChangeSet pendingChanges);
