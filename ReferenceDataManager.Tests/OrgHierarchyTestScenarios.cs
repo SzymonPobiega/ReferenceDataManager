@@ -62,7 +62,7 @@ namespace ReferenceDataManager.Tests
                 .RegisterUsingReflection<HierarchyNode>()
                 .RegisterUsingReflection<Hierarchy>();
 
-            dataFacade = new DataFacade(commandExecutor, dataStore);
+            dataFacade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
             objectFacade = new ObjectFacade(dataFacade, typeRepository, commandExecutor);
         }
     }

@@ -14,7 +14,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_returns_null_for_non_exiting_object()
         {
-            var snapshot = new Snapshot(commandExecutor);
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, new UncommittedChangeSet(null));
 
             var nonExisting = snapshot.GetById(ObjectId.NewUniqueId());
 
@@ -27,8 +27,10 @@ namespace ReferenceDataManager.Tests
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, objectId));
+
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
             var o = snapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
@@ -40,10 +42,12 @@ namespace ReferenceDataManager.Tests
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, objectId));
 
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor, new UncommittedChangeSet(changeSet.Id));
             var o = nextSnapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
@@ -57,12 +61,13 @@ namespace ReferenceDataManager.Tests
             var refereeObjectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
-            snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, refererObjectId))
+                .Add(new CreateObjectCommand(objectTypeId, refereeObjectId))
+                .Add(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
 
-            snapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
-
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            
             var o = snapshot.GetById(refererObjectId);
             var relatedToFirst = o.GetRelated(relationName);
             Assert.IsTrue(relatedToFirst.Any(x => x == refereeObjectId));
@@ -76,13 +81,15 @@ namespace ReferenceDataManager.Tests
             var refereeObjectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, refererObjectId));
-            snapshot.Load(new CreateObjectCommand(objectTypeId, refereeObjectId));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, refererObjectId))
+                .Add(new CreateObjectCommand(objectTypeId, refereeObjectId));
 
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
 
-            nextSnapshot.Load(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
+            var nextChangeSet = new UncommittedChangeSet(changeSet.Id)
+                .Add(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor, nextChangeSet);
 
             var currentObjectState = nextSnapshot.GetById(refererObjectId);
             Assert.IsTrue(currentObjectState.GetRelated(relationName).Any(x => x == refereeObjectId));
@@ -98,9 +105,11 @@ namespace ReferenceDataManager.Tests
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
-            snapshot.Load(new ModifyAttributeCommand(objectId, attributeName, "SomeValue"));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, objectId))
+                .Add(new ModifyAttributeCommand(objectId, attributeName, "SomeValue"));
+
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
             var o = snapshot.GetById(objectId);
 
             Assert.AreEqual("SomeValue", o.GetAttributeValue(attributeName));
@@ -113,12 +122,16 @@ namespace ReferenceDataManager.Tests
             var objectId = ObjectId.NewUniqueId();
             var objectTypeId = ObjectTypeId.NewUniqueId();
 
-            var snapshot = new Snapshot(commandExecutor);
-            snapshot.Load(new CreateObjectCommand(objectTypeId, objectId));
-            snapshot.Load(new ModifyAttributeCommand(objectId, property, "SomeValue"));
+            var changeSet = new UncommittedChangeSet(null)
+                .Add(new CreateObjectCommand(objectTypeId, objectId))
+                .Add(new ModifyAttributeCommand(objectId, property, "SomeValue"));
 
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor);
-            snapshot.Load(new ModifyAttributeCommand(objectId, property, "OverridingValue"));
+            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+
+            var nextChangeSet = new UncommittedChangeSet(changeSet.Id)
+                .Add(new ModifyAttributeCommand(objectId, property, "OverridingValue"));
+
+            var nextSnapshot = new Snapshot(snapshot, commandExecutor, nextChangeSet);
 
             var o = nextSnapshot.GetById(objectId);
 

@@ -7,11 +7,13 @@ namespace ReferenceDataManager
     {
         private readonly object synchRoot = new object();
         private Dictionary<ChangeSetId, ISnapshot> snapshots;
+        private readonly ISnapshotFactory snapshotFactory;
         private readonly IDataStore dataStore;
         private readonly ICommandExecutor commandExecutor;
 
-        public SnapshotCache(IDataStore dataStore, ICommandExecutor commandExecutor)
+        public SnapshotCache(ISnapshotFactory snapshotFactory, IDataStore dataStore, ICommandExecutor commandExecutor)
         {
+            this.snapshotFactory = snapshotFactory;
             this.dataStore = dataStore;
             this.commandExecutor = commandExecutor;
         }
@@ -84,16 +86,12 @@ namespace ReferenceDataManager
             return snapshot;
         }
 
-        private Snapshot CreateSnapshot(IChangeSet changeSet)
+        private ISnapshot CreateSnapshot(IChangeSet changeSet)
         {
-            var snapshot = changeSet.ParentId.HasValue
-                                    ? new Snapshot(GetSnapshot(changeSet.ParentId.Value), commandExecutor)
-                                    : new Snapshot(commandExecutor);
-            foreach (var command in changeSet.Commands)
-            {
-                snapshot.Load(command);
-            }
-            return snapshot;
+            var parent = changeSet.ParentId.HasValue
+                             ? GetSnapshot(changeSet.ParentId.Value)
+                             : NullSnapshot.Instance;
+            return snapshotFactory.CreateSnapshot(parent, commandExecutor, changeSet);
         }
     }
 }

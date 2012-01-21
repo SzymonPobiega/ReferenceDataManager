@@ -19,7 +19,7 @@ namespace ReferenceDataManager.Tests
             dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, new AbstractCommand[] {}));
             dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, new AbstractCommand[] {}));
 
-            var facade = new DataFacade(commandExecutor, dataStore);
+            var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
             Assert.Throws<InvalidOperationException>(() => facade.GetById(ObjectId.NewUniqueId(), changeSetId));
         }
 
@@ -28,7 +28,7 @@ namespace ReferenceDataManager.Tests
         {
             var objectId = ObjectId.NewUniqueId();
             var changeSetId = ChangeSetId.NewUniqueId();
-            var facade = new DataFacade(commandExecutor, dataStore);
+            var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
 
             Assert.Throws<InvalidOperationException>(() => facade.GetById(objectId, changeSetId));
         }
@@ -44,7 +44,7 @@ namespace ReferenceDataManager.Tests
                                    new CreateObjectCommand(objectTypeId, objectId)
                                };
             dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, commands));
-            var facade = new DataFacade(commandExecutor, dataStore);
+            var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
 
             var o = facade.GetById(objectId, changeSetId);
 
@@ -63,7 +63,7 @@ namespace ReferenceDataManager.Tests
                                };
             dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, commands));
             dataStore.OnStored += (sender, args) => { throw new Exception("Some nasty exception happened AFTER storing value"); };
-            var facade = new DataFacade(commandExecutor, dataStore);
+            var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
 
             var newChangeSet = new UncommittedChangeSet(changeSetId);
             newChangeSet.Add(new ModifyAttributeCommand(objectId, "TextValue", "SomeText"));

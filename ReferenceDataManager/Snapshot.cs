@@ -10,18 +10,17 @@ namespace ReferenceDataManager
         private readonly ICommandExecutor commandExecutor;
         private readonly Dictionary<ObjectId, ObjectState> materializedObjectStates = new Dictionary<ObjectId, ObjectState>();
 
-        public Snapshot(ISnapshot parentSnapshot, ICommandExecutor commandExecutor)
+        public Snapshot(ISnapshot parentSnapshot, ICommandExecutor commandExecutor, IChangeSet changeSet)
         {
             this.parentSnapshot = parentSnapshot;
             this.commandExecutor = commandExecutor;
+            foreach (var command in changeSet.Commands)
+            {
+                Load(command);
+            }
         }
-
-        public Snapshot(ICommandExecutor commandExecutor)
-            : this(NullSnapshot.Instance, commandExecutor)
-        {
-        }        
-
-        public void Load(AbstractCommand command)
+        
+        private void Load(AbstractCommand command)
         {
             var currentObjectState = GetByIdInternal(command.TargetObjectId);
             var context = new CommandExecutionContext(command.TargetObjectId, currentObjectState);
@@ -44,7 +43,7 @@ namespace ReferenceDataManager
             return parentSnapshot.Enumerate().Where(objectState => !materializedObjectStates.ContainsKey(objectState.Id));
         }
 
-        public ObjectState GetByIdInternal(ObjectId objectId)
+        private ObjectState GetByIdInternal(ObjectId objectId)
         {
             ObjectState ownObject;
             if (materializedObjectStates.TryGetValue(objectId, out ownObject))

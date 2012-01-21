@@ -8,10 +8,10 @@ namespace ReferenceDataManager
         private readonly SnapshotCache snapshots;
         private readonly IDataStore dataStore;
 
-        public DataFacade(ICommandExecutor commandExecutor, IDataStore dataStore)
+        public DataFacade(ICommandExecutor commandExecutor, IDataStore dataStore, ISnapshotFactory snapshotFactory)
         {
             this.dataStore = dataStore;
-            this.snapshots = new SnapshotCache(dataStore, commandExecutor);
+            this.snapshots = new SnapshotCache(snapshotFactory, dataStore, commandExecutor);
         }
 
         public IEnumerable<ObjectState> Enumerate(ChangeSetId changeSetId)

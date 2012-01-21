@@ -37,7 +37,7 @@ namespace ReferenceDataManager.Tests
                 .RegisterCommandHandler(new ModifyAttributeCommandHandler());
             var objectTypeRepository = new ObjectTypeDescriptorRepository()
                 .RegisterUsingReflection<TestingObject>();
-            var dataFacade = new DataFacade(commandExecutor, dataStore);
+            var dataFacade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
             var objectFacade = new ObjectFacade(dataFacade, objectTypeRepository, commandExecutor);
 
             var stopwatch = new Stopwatch();
