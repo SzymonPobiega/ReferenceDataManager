@@ -52,8 +52,10 @@
     <Compile Include="CommandsByObjectTypeCollection.cs" />
     <Compile Include="CompositeCommandExecutionContext.cs" />
     <Compile Include="IncrementalCachingSnapshotFactory.cs" />
+    <Compile Include="InMemoryDataStore.cs" />
     <Compile Include="IReferenceValueType.cs" />
     <Compile Include="ISnapshotFactory.cs" />
+    <Compile Include="ITimelineStore.cs" />
     <Compile Include="LocalDateTimeReferenceValueType.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Timeline.cs" />

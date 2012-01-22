@@ -41,6 +41,9 @@
     <Reference Include="Autofac.Configuration">
       <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc3.2.5.2.830\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -62,6 +65,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AspNetWebPagesCore.2.0.10906.0\lib\net40\System.Web.WebPages.dll</HintPath>
@@ -76,15 +82,20 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Models\ChangeSetTreeNodeViewModel.cs" />
+    <Compile Include="Models\ChangeSetTreeViewModel.cs" />
+    <Compile Include="Controllers\ChangeSetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangeSetTreeViewModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +126,23 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\treeview\images\ajax-loader.gif" />
+    <Content Include="Content\treeview\images\file.gif" />
+    <Content Include="Content\treeview\images\folder-closed.gif" />
+    <Content Include="Content\treeview\images\folder.gif" />
+    <Content Include="Content\treeview\images\minus.gif" />
+    <Content Include="Content\treeview\images\plus.gif" />
+    <Content Include="Content\treeview\images\treeview-black-line.gif" />
+    <Content Include="Content\treeview\images\treeview-black.gif" />
+    <Content Include="Content\treeview\images\treeview-default-line.gif" />
+    <Content Include="Content\treeview\images\treeview-default.gif" />
+    <Content Include="Content\treeview\images\treeview-famfamfam-line.gif" />
+    <Content Include="Content\treeview\images\treeview-famfamfam.gif" />
+    <Content Include="Content\treeview\images\treeview-gray-line.gif" />
+    <Content Include="Content\treeview\images\treeview-gray.gif" />
+    <Content Include="Content\treeview\images\treeview-red-line.gif" />
+    <Content Include="Content\treeview\images\treeview-red.gif" />
+    <Content Include="Content\treeview\jquery.treeview.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
@@ -122,6 +150,7 @@
     <Content Include="Scripts\jquery-1.5.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.treeview.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -144,7 +173,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="Views\ChangeSet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -154,6 +183,9 @@
       <Project>{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}</Project>
       <Name>ReferenceDataManager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ChangeSet\_Node.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

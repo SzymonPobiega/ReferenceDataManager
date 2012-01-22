@@ -1,0 +1,15 @@
+﻿@model ReferenceDataManager.Sample.Web.Models.ChangeSetTreeNodeViewModel
+
+<li>
+    <span>@Model.Title</span>
+    <input type="hidden" value="@Model.Id" />
+    @if (Model.Children.Any())
+    {
+    <ul>
+        @foreach (var root in Model.Children)
+        {
+            Html.RenderPartial("_Node", root);
+        }
+    </ul>
+    }
+</li>

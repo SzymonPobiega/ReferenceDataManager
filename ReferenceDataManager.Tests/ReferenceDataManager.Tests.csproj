@@ -48,12 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeSetTreeViewModelFactoryTests.cs" />
     <Compile Include="CommandExecutorTests.cs" />
     <Compile Include="CommandsByObjectCollectionTests.cs" />
     <Compile Include="CommandsByObjectTypeCollectionTests.cs" />
     <Compile Include="CompositeCommandExecutionContextTests.cs" />
     <Compile Include="DataFacadeTests.cs" />
-    <Compile Include="InMemoryDataStore.cs" />
     <Compile Include="ObjectFacadeTests.cs" />
     <Compile Include="ObjectIdentityMapTests.cs" />
     <Compile Include="ObjectRelationCollectionTest.cs" />
@@ -70,6 +70,10 @@
     <ProjectReference Include="..\ReferenceDataManager.Sample.OrgHierarchy\ReferenceDataManager.Sample.OrgHierarchy.csproj">
       <Project>{3F0C67E2-ED65-4773-8149-F29EE2CC04D6}</Project>
       <Name>ReferenceDataManager.Sample.OrgHierarchy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReferenceDataManager.Sample.Web\ReferenceDataManager.Sample.Web.csproj">
+      <Project>{79D9B244-A735-4E4E-B6EA-21274E5793B4}</Project>
+      <Name>ReferenceDataManager.Sample.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\ReferenceDataManager\ReferenceDataManager.csproj">
       <Project>{1EE783D4-45F1-4D12-9D52-04A7B96C84FC}</Project>
