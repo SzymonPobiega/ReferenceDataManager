@@ -98,7 +98,7 @@
     <Compile Include="PersistentDataRetrievalStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationDescriptor.cs" />
-    <Compile Include="Snapshot.cs" />
+    <Compile Include="IncrementalCachingSnapshot.cs" />
     <Compile Include="SnapshotCache.cs" />
     <Compile Include="TypedCommand.cs" />
     <Compile Include="TypedCommandHandlerExtensions.cs" />

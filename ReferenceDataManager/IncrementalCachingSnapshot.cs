@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace ReferenceDataManager
 {
-    public class Snapshot : ISnapshot
+    public class IncrementalCachingSnapshot : ISnapshot
     {
         private readonly ISnapshot parentSnapshot;
         private readonly ICommandExecutor commandExecutor;
         private readonly Dictionary<ObjectId, ObjectState> materializedObjectStates = new Dictionary<ObjectId, ObjectState>();
 
-        public Snapshot(ISnapshot parentSnapshot, ICommandExecutor commandExecutor, IChangeSet changeSet)
+        public IncrementalCachingSnapshot(ISnapshot parentSnapshot, ICommandExecutor commandExecutor, IChangeSet changeSet)
         {
             this.parentSnapshot = parentSnapshot;
             this.commandExecutor = commandExecutor;

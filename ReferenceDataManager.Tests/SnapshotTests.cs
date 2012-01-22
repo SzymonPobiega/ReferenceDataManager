@@ -14,7 +14,7 @@ namespace ReferenceDataManager.Tests
         [Test]
         public void It_returns_null_for_non_exiting_object()
         {
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, new UncommittedChangeSet(null));
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, new UncommittedChangeSet(null));
 
             var nonExisting = snapshot.GetById(ObjectId.NewUniqueId());
 
@@ -30,7 +30,7 @@ namespace ReferenceDataManager.Tests
             var changeSet = new UncommittedChangeSet(null)
                 .Add(new CreateObjectCommand(objectTypeId, objectId));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
             var o = snapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
@@ -45,9 +45,9 @@ namespace ReferenceDataManager.Tests
             var changeSet = new UncommittedChangeSet(null)
                 .Add(new CreateObjectCommand(objectTypeId, objectId));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
 
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor, new UncommittedChangeSet(changeSet.Id));
+            var nextSnapshot = new IncrementalCachingSnapshot(snapshot, commandExecutor, new UncommittedChangeSet(changeSet.Id));
             var o = nextSnapshot.GetById(objectId);
 
             Assert.IsNotNull(o);
@@ -66,7 +66,7 @@ namespace ReferenceDataManager.Tests
                 .Add(new CreateObjectCommand(objectTypeId, refereeObjectId))
                 .Add(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
             
             var o = snapshot.GetById(refererObjectId);
             var relatedToFirst = o.GetRelated(relationName);
@@ -85,11 +85,11 @@ namespace ReferenceDataManager.Tests
                 .Add(new CreateObjectCommand(objectTypeId, refererObjectId))
                 .Add(new CreateObjectCommand(objectTypeId, refereeObjectId));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
 
             var nextChangeSet = new UncommittedChangeSet(changeSet.Id)
                 .Add(new AttachObjectCommand(refererObjectId, refereeObjectId, relationName));
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor, nextChangeSet);
+            var nextSnapshot = new IncrementalCachingSnapshot(snapshot, commandExecutor, nextChangeSet);
 
             var currentObjectState = nextSnapshot.GetById(refererObjectId);
             Assert.IsTrue(currentObjectState.GetRelated(relationName).Any(x => x == refereeObjectId));
@@ -109,7 +109,7 @@ namespace ReferenceDataManager.Tests
                 .Add(new CreateObjectCommand(objectTypeId, objectId))
                 .Add(new ModifyAttributeCommand(objectId, attributeName, "SomeValue"));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
             var o = snapshot.GetById(objectId);
 
             Assert.AreEqual("SomeValue", o.GetAttributeValue(attributeName));
@@ -126,12 +126,12 @@ namespace ReferenceDataManager.Tests
                 .Add(new CreateObjectCommand(objectTypeId, objectId))
                 .Add(new ModifyAttributeCommand(objectId, property, "SomeValue"));
 
-            var snapshot = new Snapshot(NullSnapshot.Instance, commandExecutor, changeSet);
+            var snapshot = new IncrementalCachingSnapshot(NullSnapshot.Instance, commandExecutor, changeSet);
 
             var nextChangeSet = new UncommittedChangeSet(changeSet.Id)
                 .Add(new ModifyAttributeCommand(objectId, property, "OverridingValue"));
 
-            var nextSnapshot = new Snapshot(snapshot, commandExecutor, nextChangeSet);
+            var nextSnapshot = new IncrementalCachingSnapshot(snapshot, commandExecutor, nextChangeSet);
 
             var o = nextSnapshot.GetById(objectId);
 
