@@ -54,6 +54,7 @@
     <Compile Include="IncrementalCachingSnapshotFactory.cs" />
     <Compile Include="IReferenceValueType.cs" />
     <Compile Include="ISnapshotFactory.cs" />
+    <Compile Include="LocalDateTimeReferenceValueType.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Timeline.cs" />
     <Compile Include="ChangeSet.cs" />
