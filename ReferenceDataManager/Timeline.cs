@@ -4,21 +4,42 @@ using System.Linq;
 
 namespace ReferenceDataManager
 {
-    public class Timeline<TRefence>
-        where TRefence : IComparable<TRefence>
+    public class Timeline
     {
         private readonly string name;
-        private readonly List<Point<TRefence>> points;
+        private readonly IReferenceValueType referenceType;
+        private readonly List<Point> points;
 
-        public Timeline(string name, IEnumerable<Point<TRefence>> points)
+        public Timeline(string name, IReferenceValueType referenceType, IEnumerable<Point> points)
         {
             this.name = name;
+            this.referenceType = referenceType;
             this.points = points.ToList();
         }
 
-        public ChangeSetId? GetLastValidChangeSet(TRefence actualValue)
+        public IReferenceValueType ReferenceType
         {
-            Point<TRefence> previousPoint = null;
+            get { return referenceType; }
+        }
+
+        public void AddPoint(Point point)
+        {
+            if (!referenceType.IsCompatible(point.ReferenceValue))
+            {
+                throw new InvalidOperationException(string.Format("Point's reference value {0} is not compatible with this timeline's reference value type: {1}",
+                    point.ReferenceValue, referenceType.GetType().Name));
+            }
+            points.Add(point);
+        }
+
+        public void RemovePointFor(ChangeSetId changeSetId)
+        {
+            points.RemoveAll(x => x.ChangeSetId == changeSetId);
+        }
+
+        public ChangeSetId? GetLastValidChangeSet(IComparable actualValue)
+        {
+            Point previousPoint = null;
             foreach (var point in Points)
             {
                 if (!point.IsValidFor(actualValue))
@@ -32,7 +53,7 @@ namespace ReferenceDataManager
             return null;
         }
 
-        public IEnumerable<Point<TRefence>> Points
+        public IEnumerable<Point> Points
         {
             get { return points; }
         }

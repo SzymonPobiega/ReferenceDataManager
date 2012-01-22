@@ -2,26 +2,30 @@
 
 namespace ReferenceDataManager
 {
-    public class Point<TReference>
-        where TReference : IComparable<TReference>
+    public class Point
     {
         private readonly ChangeSetId changeSetId;
-        private readonly TReference referenceValue;
+        private readonly IComparable referenceValue;
 
-        public Point(ChangeSetId changeSetId, TReference referenceValue)
+        public Point(ChangeSetId changeSetId, IComparable referenceValue)
         {
             this.changeSetId = changeSetId;
             this.referenceValue = referenceValue;
         }
 
-        public bool IsValidFor(TReference actualValue)
+        public bool IsValidFor(IComparable actualValue)
         {
-            return actualValue.CompareTo(referenceValue) >= 0;
+            return actualValue.CompareTo(ReferenceValue) >= 0;
         }
 
         public ChangeSetId ChangeSetId
         {
             get { return changeSetId; }
+        }
+
+        public IComparable ReferenceValue
+        {
+            get { return referenceValue; }
         }
     }
 }

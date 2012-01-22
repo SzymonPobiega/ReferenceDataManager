@@ -47,5 +47,10 @@ namespace ReferenceDataManager
         {
             return new ChangeSetId(Guid.NewGuid());
         }
+
+        public static ChangeSetId Parse(string changeSetId)
+        {
+            return new ChangeSetId(new Guid(changeSetId));
+        }
     }
 }
