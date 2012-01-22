@@ -22,13 +22,13 @@ namespace ReferenceDataManager.Tests
 
             ChangeSetId? previousChangeSetId = null;
             ChangeSetId currentChangeSetId = ChangeSetId.NewUniqueId();
-            dataStore.ChangeSets.Add(new ChangeSet(currentChangeSetId, previousChangeSetId, GenerateCreateCommands(objectIds)));
+            dataStore.ChangeSets.Add(new ChangeSet(currentChangeSetId, previousChangeSetId, "Some comment", GenerateCreateCommands(objectIds)));
             previousChangeSetId = currentChangeSetId;
             
             for (int i = 0; i < 9; i++)
             {
                 currentChangeSetId = ChangeSetId.NewUniqueId();
-                dataStore.ChangeSets.Add(new ChangeSet(currentChangeSetId, previousChangeSetId, GenerateUpdateCommands(i, objectIds)));
+                dataStore.ChangeSets.Add(new ChangeSet(currentChangeSetId, previousChangeSetId, "Some comment", GenerateUpdateCommands(i, objectIds)));
                 previousChangeSetId = currentChangeSetId;
             }
 

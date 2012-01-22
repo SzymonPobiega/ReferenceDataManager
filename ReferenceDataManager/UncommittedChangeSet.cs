@@ -6,11 +6,18 @@ namespace ReferenceDataManager
     {
         private readonly ChangeSetId? parentId;
         private readonly ChangeSetId id = ChangeSetId.NewUniqueId();
+        private readonly string comment;
         private readonly List<AbstractCommand> commands = new List<AbstractCommand>();
 
-        public UncommittedChangeSet(ChangeSetId? parentId)
+        public UncommittedChangeSet(ChangeSetId? parentId, string comment)
         {
             this.parentId = parentId;
+            this.comment = comment;
+        }
+
+        public string Comment
+        {
+            get { return comment; }
         }
 
         public UncommittedChangeSet Add(AbstractCommand command)

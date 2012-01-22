@@ -7,7 +7,7 @@
 
         public ChangeSetBuilder(IObjectFacade objectFacade, ChangeSetId? parentId)
         {
-            pendingChanges = new UncommittedChangeSet(parentId);
+            pendingChanges = new UncommittedChangeSet(parentId, "Some comment");
             updatableSnapshot = objectFacade.GetSnapshot(pendingChanges);
         }
 

@@ -19,7 +19,7 @@ namespace ReferenceDataManager.Tests
 
         public void Store(UncommittedChangeSet changeSet)
         {
-            changeSets.Add(new ChangeSet(changeSet.Id, changeSet.ParentId, changeSet.Commands));
+            changeSets.Add(new ChangeSet(changeSet.Id, changeSet.ParentId, "Some comment", changeSet.Commands));
             if (OnStored != null)
             {
                 OnStored(this, new EventArgs());

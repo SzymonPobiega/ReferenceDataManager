@@ -16,8 +16,8 @@ namespace ReferenceDataManager.Tests
         public void It_throws_exception_when_trying_to_load_two_change_sets_with_same_ids()
         {
             var changeSetId = ChangeSetId.NewUniqueId();
-            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, new AbstractCommand[] {}));
-            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, new AbstractCommand[] {}));
+            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, "Some comment", new AbstractCommand[] {}));
+            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, "Some comment", new AbstractCommand[] {}));
 
             var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
             Assert.Throws<InvalidOperationException>(() => facade.GetById(ObjectId.NewUniqueId(), changeSetId));
@@ -43,7 +43,7 @@ namespace ReferenceDataManager.Tests
                                {
                                    new CreateObjectCommand(objectTypeId, objectId)
                                };
-            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, commands));
+            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, "Some comment", commands));
             var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
 
             var o = facade.GetById(objectId, changeSetId);
@@ -61,11 +61,11 @@ namespace ReferenceDataManager.Tests
                                {
                                    new CreateObjectCommand(objectTypeId, objectId)
                                };
-            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, commands));
+            dataStore.ChangeSets.Add(new ChangeSet(changeSetId, null, "Some comment", commands));
             dataStore.OnStored += (sender, args) => { throw new Exception("Some nasty exception happened AFTER storing value"); };
             var facade = new DataFacade(commandExecutor, dataStore, new IncrementalCachingSnapshotFactory());
 
-            var newChangeSet = new UncommittedChangeSet(changeSetId);
+            var newChangeSet = new UncommittedChangeSet(changeSetId, "Some comment");
             newChangeSet.Add(new ModifyAttributeCommand(objectId, "TextValue", "SomeText"));
 
             try
